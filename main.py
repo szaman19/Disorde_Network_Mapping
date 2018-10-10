@@ -3,6 +3,7 @@ from __future__ import division
 import os
 import networkx as nx
 import numpy as np
+import matplotlib
 import matplotlib.pyplot as plt
 
 def generate_graph(file_name):
@@ -23,7 +24,7 @@ def generate_graph(file_name):
             corr = 0
         #Regular division is not helpful in this situation. Make sure to not add when i = j, because corr == inf
 
-        if(site_i != site_j and site_i < 11 and site_j < 11):
+        if(site_i != site_j):
             #print(site_i, site_j, corr)
             graph.add_edge(site_i,site_j, weight = corr)
         
@@ -39,23 +40,37 @@ def main():
     graph =  generate_graph(file_name)
     #nx.draw(graph, with_labels=True)
     #plt.show()
-    print(graph.number_of_nodes())
-    print(graph.number_of_edges())
-    print(nx.single_source_dijkstra_path(graph,1))
-    print(nx.single_source_dijkstra_path_length(graph,1))
+    #print(graph.number_of_nodes())
+    #print(graph.number_of_edges())
+    #print(nx.single_source_dijkstra_path(graph,1))
+    #print(nx.single_source_dijkstra_path_length(graph,1))
     all_path_lengths = dict(nx.all_pairs_dijkstra_path_length(graph))
     average_path = []
     j = 1
     i = 1
     steps = 0
-    while (steps < 11):
+    while (steps < 101):
         i = 1
         j = 1 +steps
-        while(j < 11):
-            print(i,j)
+        counter = 0
+        total_length = 0
+        while(j < 101):
+            total_length += all_path_lengths[i][j]
+            counter +=1
+           # print(i,j)
             i += 1
             j += 1
-
+        if (counter != 0):
+            #print(total_length/ counter)
+            average_path.append(total_length/counter)
         steps +=1
+    print(average_path)
 
+    lattice_spacing = range(0,100)
+    fig,ax = plt.subplots()
+    ax.plot(lattice_spacing, average_path)
+    ax.set(xlabel='Lattice Spacing', ylabel='Transition Weight', title='Shortest Paths')
+    ax.grid()
+    fig.savefig("test1.png")
+    plt.show()
 main()
