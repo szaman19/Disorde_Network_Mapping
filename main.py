@@ -36,7 +36,7 @@ def main():
     cwd = os.getcwd()
     #Pe-1D-Ns100-Aij-disW-0.txt
 
-    file_name = cwd+'/data/Pe-1D-100-Aij-disW-1d6.txt'
+    file_name = cwd+'/data/Pe-1D-Ns100-Aij-disW-0.txt'
     graph =  generate_graph(file_name)
     #nx.draw(graph, with_labels=True)
     #plt.show()
@@ -64,13 +64,16 @@ def main():
             #print(total_length/ counter)
             average_path.append(total_length/counter)
         steps +=1
+    results = open("disw-0.txt","w")
+    for num in average_path:
+        results.write(str(num)+"\n")
     print(average_path)
 
-    lattice_spacing = range(0,100)
-    fig,ax = plt.subplots()
-    ax.plot(lattice_spacing, average_path)
-    ax.set(xlabel='Lattice Spacing', ylabel='Transition Weight', title='Shortest Paths')
-    ax.grid()
-    fig.savefig("test6.png")
+    #lattice_spacing = range(0,100)
+    #fig,ax = plt.subplots()
+    #ax.plot(lattice_spacing, average_path)
+    #ax.set(xlabel='Lattice Spacing', ylabel='Transition Weight', title='Shortest Paths')
+    #ax.grid()
+    #fig.savefig("test6.png")
     #plt.show()
 main()
