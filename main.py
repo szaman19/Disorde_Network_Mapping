@@ -35,8 +35,8 @@ def generate_graph(file_name):
 def main():
     cwd = os.getcwd()
     #Pe-1D-Ns100-Aij-disW-0.txt
-
-    file_name = cwd+'/data/Pe-1D-Ns100-Aij-disW-0.txt'
+    data_file = 'NoPe-1D-100-Diffusion-Aij-disW-1d6.txt'
+    file_name = cwd+'/data/'+data_file
     graph =  generate_graph(file_name)
     #nx.draw(graph, with_labels=True)
     #plt.show()
@@ -64,7 +64,7 @@ def main():
             #print(total_length/ counter)
             average_path.append(total_length/counter)
         steps +=1
-    results = open("disw-0.txt","w")
+    results = open("Shortest-Paths-"+data_file,"w")
     for num in average_path:
         results.write(str(num)+"\n")
     print(average_path)
