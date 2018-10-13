@@ -32,18 +32,7 @@ def generate_graph(file_name):
     #print(np.matrix(adj_matrix))
     return graph
 
-def main():
-    cwd = os.getcwd()
-    #Pe-1D-Ns100-Aij-disW-0.txt
-    data_file = 'NoPe-1D-100-Diffusion-Aij-disW-1d6.txt'
-    file_name = cwd+'/data/'+data_file
-    graph =  generate_graph(file_name)
-    #nx.draw(graph, with_labels=True)
-    #plt.show()
-    #print(graph.number_of_nodes())
-    #print(graph.number_of_edges())
-    #print(nx.single_source_dijkstra_path(graph,1))
-    #print(nx.single_source_dijkstra_path_length(graph,1))
+def average_path_generator(graph):
     all_path_lengths = dict(nx.all_pairs_dijkstra_path_length(graph))
     average_path = []
     j = 1
@@ -67,7 +56,35 @@ def main():
     results = open("Shortest-Paths-"+data_file,"w")
     for num in average_path:
         results.write(str(num)+"\n")
-    print(average_path)
+
+
+def main():
+    cwd = os.getcwd()
+    #Pe-1D-Ns100-Aij-disW-0.txt
+    data_file = 'NoPe-1D-100-Diffusion-Aij-disW-0.txt'
+    file_name = cwd+'/data/'+data_file
+    graph =  generate_graph(file_name)
+    #nx.draw(graph, with_labels=True)
+    #plt.show()
+    #print(graph.number_of_nodes())
+    #print(graph.number_of_edges())
+    #print(nx.single_source_dijkstra_path(graph,1))
+    #print(nx.single_source_dijkstra_path_length(graph,1))
+
+    all_path_lengths = dict(nx.all_pairs_dijkstra_path_length(graph))
+    
+    for i in range(1,101,10):
+        lattice_spacing = range(1-i,101-i)
+        path =[]
+        for j in range(1,101):
+            path.append(all_path_lengths[i][j])
+        #path = all_path_lengths[i]
+        label = "Node " + str(i)
+        plt.plot(lattice_spacing, path,label=label)
+    plt.title(data_file.rstrip(".txt"))
+    plt.xlabel("Lattice Spacing")
+    plt.legend()
+    plt.show()
 
     #lattice_spacing = range(0,100)
     #fig,ax = plt.subplots()
