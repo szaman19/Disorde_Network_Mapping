@@ -38,12 +38,12 @@ def average_path_generator(graph):
     j = 1
     i = 1
     steps = 0
-    while (steps < 101):
+    while (steps < 401):
         i = 1
         j = 1 +steps
         counter = 0
         total_length = 0
-        while(j < 101):
+        while(j < 401):
             total_length += all_path_lengths[i][j]
             counter +=1
            # print(i,j)
@@ -61,7 +61,7 @@ def average_path_generator(graph):
 def main():
     cwd = os.getcwd()
     #Pe-1D-Ns100-Aij-disW-0.txt
-    data_file = 'NoPe-1D-100-Diffusion-Aij-disW-0.txt'
+    data_file = 'NoPe-1D-400-Diffusion-Aij-disW-0.txt'
     file_name = cwd+'/data/'+data_file
     graph =  generate_graph(file_name)
     #nx.draw(graph, with_labels=True)
@@ -73,10 +73,10 @@ def main():
 
     all_path_lengths = dict(nx.all_pairs_dijkstra_path_length(graph))
     
-    for i in range(1,101,10):
-        lattice_spacing = range(1-i,101-i)
+    for i in range(1,401,10):
+        lattice_spacing = range(1-i,401-i)
         path =[]
-        for j in range(1,101):
+        for j in range(1,401):
             path.append(all_path_lengths[i][j])
         #path = all_path_lengths[i]
         label = "Node " + str(i)
