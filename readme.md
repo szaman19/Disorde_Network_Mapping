@@ -10,3 +10,5 @@ Various network algorithms are run on the generated graph.
 - Ramp up Node count t oget ride of finite size effects
 - Currently only focusing one 1-d chain. Start looking into 2-d and 3-d models and the possible representations
 - Prootyped using python and networkx. Future iterations will require more parallelism so will look into c++ implementations if results look promising
+- Add small-worldedness, clustering classification 
+- Some new data
