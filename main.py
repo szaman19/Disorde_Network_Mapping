@@ -32,7 +32,7 @@ def generate_graph(file_name):
     #print(np.matrix(adj_matrix))
     return graph
 
-def average_path_generator(graph):
+def average_path_generator(graph,data_file):
     all_path_lengths = dict(nx.all_pairs_dijkstra_path_length(graph))
     average_path = []
     j = 1
@@ -64,6 +64,18 @@ def main():
     data_file = 'NoPe-1D-400-Diffusion-Aij-disW-0.txt'
     file_name = cwd+'/data/'+data_file
     graph =  generate_graph(file_name)
+    
+    data_file1 = 'NoPe-1D-400-Diffusion-Aij-disW-1d3.txt'
+    file_name1 = cwd+'/data/'+data_file1
+    graph1 = generate_graph(file_name1)
+
+    data_file2 = 'NoPe-1D-400-Diffusion-Aij-disW-1d6.txt' 
+    file_name2 = cwd+'/data/'+data_file2
+    graph2 = generate_graph(file_name2)
+
+    average_path_generator(graph, data_file)
+    average_path_generator(graph1, data_file1)
+    average_path_generator(graph2, data_file2)
     #nx.draw(graph, with_labels=True)
     #plt.show()
     #print(graph.number_of_nodes())
@@ -71,20 +83,20 @@ def main():
     #print(nx.single_source_dijkstra_path(graph,1))
     #print(nx.single_source_dijkstra_path_length(graph,1))
 
-    all_path_lengths = dict(nx.all_pairs_dijkstra_path_length(graph))
+    #all_path_lengths = dict(nx.all_pairs_dijkstra_path_length(graph))
     
-    for i in range(1,401,10):
-        lattice_spacing = range(1-i,401-i)
-        path =[]
-        for j in range(1,401):
-            path.append(all_path_lengths[i][j])
+    #for i in range(1,401,10):
+    #    lattice_spacing = range(1-i,401-i)
+    #    path =[]
+    #    for j in range(1,401):
+    #        path.append(all_path_lengths[i][j])
         #path = all_path_lengths[i]
-        label = "Node " + str(i)
-        plt.plot(lattice_spacing, path,label=label)
-    plt.title(data_file.rstrip(".txt"))
-    plt.xlabel("Lattice Spacing")
-    plt.legend()
-    plt.show()
+    #    label = "Node " + str(i)
+    #    plt.plot(lattice_spacing, path,label=label)
+    #plt.title(data_file.rstrip(".txt"))
+    #plt.xlabel("Lattice Spacing")
+    #plt.legend()
+    #plt.show()
 
     #lattice_spacing = range(0,100)
     #fig,ax = plt.subplots()
