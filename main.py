@@ -149,7 +149,7 @@ def main():
         s=' '.join(i)
         file_output.write(s)
     file_output.close()
-    #print(results)
+    #print(result
         
     
     #average_path_generator(graph, data_file)
