@@ -1,4 +1,6 @@
 from __future__ import division
+from multiprocessing import process
+from multiprocessing import pool as Pool
 
 import os
 import networkx as nx
@@ -65,52 +67,81 @@ def average_path_generator(graph,label,data_file):
     for num in average_path:
         results.write(str(num)+"\n")
 
+def clustering_coefficient(graph, label):
+    cc = nx.clustering(graph, weight='weight')
+    out = (cc,label)
+    return out
+
+def trial():
+    pool = Pool.Pool(processes=4)
+    results = [pool.apply(clustering_coefficient, args=(x,x*2,)) for x in range(1,7)]
+    print(results)
 
 def main():
     cwd = os.getcwd()
     #Pe-1D-Ns100-Aij-disW-0.txt
-    
+    graphs = []
+    labels = []
+
     data_file = 'Pe-1D-500-Diffusion-Aij-disW-0.txt'
     file_name = cwd+'/data/'+data_file
     graph,lab =  generate_graph(file_name)
-    average_path_generator(graph,lab, data_file)
+    #average_path_generator(graph,lab, data_file)
+    graphs.append(graph)
+    labels.append(lab)
     data_file1 = 'Pe-1D-500-Diffusion-Aij-disW-0d0.txt'
     file_name1 = cwd+'/data/'+data_file1
     graph1,lab1 = generate_graph(file_name1)
-    average_path_generator(graph1,lab1, data_file1)
-
+    #average_path_generator(graph1,lab1, data_file1)
+    graphs.append(graph1)
+    labels.append(lab1)
 
     data_file2 = 'Pe-1D-500-Diffusion-Aij-disW-0d1.txt' 
     file_name2 = cwd+'/data/'+data_file2
     graph2,lab2 = generate_graph(file_name2)
-    average_path_generator(graph2,lab2, data_file2)
-
+    #average_path_generator(graph2,lab2, data_file2)
+    graphs.append(graph2)
+    labels.append(lab2)
+    
     data_file3 = 'Pe-1D-500-Diffusion-Aij-disW-0d2.txt' 
     file_name3 = cwd+'/data/'+data_file3
     graph3,lab3 = generate_graph(file_name3)
-    average_path_generator(graph3,lab3, data_file3)
-
+    #average_path_generator(graph3,lab3, data_file3)
+    graphs.append(graph3)
+    labels.append(lab3)
+    
     data_file4 = 'Pe-1D-500-Diffusion-Aij-disW-n0d7.txt' 
     file_name4 = cwd+'/data/'+data_file4
     graph4,lab4 = generate_graph(file_name4)
-    average_path_generator(graph4,lab4, data_file4)
+    #average_path_generator(graph4,lab4, data_file4)
+    graphs.append(graph4)
+    labels.append(lab4)
 
     data_file5 = 'Pe-1D-500-Diffusion-Aij-disW-n0d8.txt' 
     file_name5 = cwd+'/data/'+data_file5
     graph5,lab5 = generate_graph(file_name5)
-    average_path_generator(graph5,lab5, data_file5)
+    #average_path_generator(graph5,lab5, data_file5)
+    graphs.append(graph5)
+    labels.append(lab5)
 
     data_file6 = 'Pe-1D-500-Diffusion-Aij-disW-n0d9.txt' 
     file_name6 = cwd+'/data/'+data_file6
     graph6,lab6 = generate_graph(file_name6)
-    average_path_generator(graph6,lab6, data_file6)
-    
+    #average_path_generator(graph6,lab6, data_file6)
+    graphs.append(graph6)
+    labels.append(lab6)
+
     data_file7 = 'Pe-1D-500-Diffusion-Aij-disW-n1d0.txt' 
     file_name7 = cwd+'/data/'+data_file7
     graph7,lab7 = generate_graph(file_name7)
-    average_path_generator(graph7,lab7, data_file7)    
+    #average_path_generator(graph7,lab7, data_file7)    
+    graphs.append(graph7)
+    labels.append(lab7)
     
-    
+    pool = Pool.Pool(processes=8)
+    results = [pool.apply(clustering_coefficient, args=(graphs[x],labels[x],)) for x in range(8)]
+    print(results)
+        
     
     #average_path_generator(graph, data_file)
     #average_path_generator(graph1, data_file1)
@@ -145,3 +176,4 @@ def main():
     #fig.savefig("test6.png")
     #plt.show()
 main()
+#trial()
