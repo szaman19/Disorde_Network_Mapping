@@ -139,8 +139,17 @@ def main():
     labels.append(lab7)
     
     pool = Pool.Pool(processes=8)
-    results = [pool.apply(clustering_coefficient, args=(graphs[x],labels[x],)) for x in range(8)]
-    print(results)
+    results = [pool.apply_async(clustering_coefficient, args=(graphs[x],labels[x],)) for x in range(8)]
+    output = [p.get() for p in results]
+    print(output)
+
+    file_output = open("Pe-1d-500-Diffusion-Aij-CC.txt",'w')
+
+    for i in output:
+        s=' '.join(i)
+        file_output.write(s)
+    file_output.close()
+    #print(results)
         
     
     #average_path_generator(graph, data_file)
