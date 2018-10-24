@@ -11,10 +11,15 @@ def main():
         
         data_file = open(sys.argv[i])
         data_array = []
+        Label = ''
         for eachline in data_file:
-            data_array.append(float(eachline))
+            if(len(eachline.split()) < 2):
+                data_array.append(float(eachline))
+            if(len(eachline.split()) > 2):
+                Label = eachline
         x=range(0,len(data_array))
-        plt.plot(x,data_array, color=cmap(i),label=sys.argv[i].rstrip('.txt'))
+        
+        plt.plot(x,data_array, color=cmap(i),label=Label)
     plt.legend()
     plt.show()
 
