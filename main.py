@@ -68,7 +68,7 @@ def average_path_generator(graph,label,data_file):
         results.write(str(num)+"\n")
 
 def clustering_coefficient(graph, label):
-    cc = nx.clustering(graph, weight='weight')
+    cc = nx.average_clustering(graph, weight='weight')
     out = (cc,label)
     return out
 
