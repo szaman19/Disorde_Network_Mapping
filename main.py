@@ -68,8 +68,18 @@ def average_path_generator(graph,label,data_file):
         results.write(str(num)+"\n")
 
 def clustering_coefficient(graph, label):
-    cc = nx.average_clustering(graph, weight='weight')
-    out = (cc,label)
+    cc = nx.clustering(graph, weight='weight')
+    label = label.replace(".","d")
+    file_open = open("Pe-1D-Diffusion-CC-W-"+label+".txt", 'w')
+    
+    total = 0
+    for key,value in cc.items():
+        str_out = str(key) + "-" + str(value)+"\n"
+        file_open.write(str_out)
+        total += value
+    file_open.close()
+    total = total / 500
+    out = (str(total),label)
     return out
 
 def trial():
