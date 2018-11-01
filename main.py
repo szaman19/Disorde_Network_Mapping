@@ -26,7 +26,7 @@ def generate_graph(file_name):
             site_i = int(data_points[0])
             site_j = int(data_points[1])
             if (site_i != site_j):
-                corr = np.reciprocal(float(data_points[2]))
+                corr = float(data_points[2])
             else:
                 corr = 0
         #Regular division is not helpful in this situation. Make sure to not add when i = j, because corr == inf
@@ -70,7 +70,7 @@ def average_path_generator(graph,label,data_file):
 def clustering_coefficient(graph, label):
     cc = nx.clustering(graph, weight='weight')
     label = label.replace(".","d")
-    file_open = open("Pe-1D-Diffusion-CC-W-"+label+".txt", 'w')
+    file_open = open("Pe-1D-Diffusion-CC-NoRec-W-"+label+".txt", 'w')
     
     total = 0
     for key,value in cc.items():
@@ -153,7 +153,7 @@ def main():
     output = [p.get() for p in results]
     print(output)
 
-    file_output = open("Pe-1d-500-Diffusion-Aij-CC.txt",'w')
+    file_output = open("Pe-1d-500-Diffusion-Aij-NoRec-CC.txt",'w')
 
     for i in output:
         s=' '.join(i)
