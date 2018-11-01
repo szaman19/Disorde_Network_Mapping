@@ -11,7 +11,7 @@ def main():
         
         data_file = open(sys.argv[i])
         data_array = []
-        Label = "W = " + sys.argv[i].split("-")[5].strip(".txt")
+        Label = "W = " + sys.argv[i].split("-")[6].strip(".txt")
         for eachline in data_file:
             values = eachline.split("-")
             values.pop(0)
