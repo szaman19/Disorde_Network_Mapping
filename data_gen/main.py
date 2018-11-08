@@ -37,8 +37,8 @@ def main():
     
     W = 0
     for k in range (5):
-        W = k * 1e-3
-        H = generate_hamiltonian(1000, W)
+        W = k * 2
+        H = generate_hamiltonian(100, W)
     
         energies = eigen_values(H)
  
@@ -54,7 +54,7 @@ def main():
     plt.xlabel("E")
     plt.legend()
     plt.savefig("100-W-0-4e3.png")
-   # plt.show()
+    plt.show()
     
     #print(H)
 
