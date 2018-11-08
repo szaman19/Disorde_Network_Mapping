@@ -35,12 +35,12 @@ def DOS (eig_vals, eta, energy):
 
 def main():
 
-    H = generate_hamiltonian(20, 0)
+    H = generate_hamiltonian(100, 0)
     
     energies = eigen_values(H)
     
     vals = []
-
+        
     for i in range (-1000,1000):
         vals.append(DOS(energies, .5, i/100))
 
@@ -49,7 +49,8 @@ def main():
     plt.title('Density of States')
     plt.xlabel("E")
     plt.legend()
-    plt.show()
+    plt.savefig("100-W-0.png")
+   # plt.show()
     
     #print(H)
 
