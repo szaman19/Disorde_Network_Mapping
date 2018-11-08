@@ -34,22 +34,26 @@ def DOS (eig_vals, eta, energy):
     return retVal
 
 def main():
-
-    H = generate_hamiltonian(100, 0)
     
-    energies = eigen_values(H)
+    W = 0
+    for k in range (5):
+        W = k * 1e-5
+        H = generate_hamiltonian(100, W)
     
-    vals = []
+        energies = eigen_values(H)
+    
+        vals = []
         
-    for i in range (-1000,1000):
-        vals.append(DOS(energies, .5, i/100))
-
-    plt.plot(range(-1000,1000),vals,label="W=0")
-    plt.xticks(np.arange(-1000, 1100, step=100),range(-10,11,))
+        for i in range (-1000,1000):
+            vals.append(DOS(energies, .5, i/100))
+        label = "W = " + str(W)
+        plt.plot(range(-1000,1000),vals,label=label)
+        plt.xticks(np.arange(-1000, 1100, step=100),range(-10,11,))
+    
     plt.title('Density of States')
     plt.xlabel("E")
     plt.legend()
-    plt.savefig("100-W-0.png")
+    plt.savefig("100-W-0-5e5.png")
    # plt.show()
     
     #print(H)
