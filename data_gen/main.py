@@ -37,11 +37,11 @@ def main():
     
     W = 0
     for k in range (5):
-        W = k * 1e-5
+        W = k * 1e-3
         H = generate_hamiltonian(100, W)
     
         energies = eigen_values(H)
-    
+ 
         vals = []
         
         for i in range (-1000,1000):
