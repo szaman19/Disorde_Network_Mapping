@@ -38,7 +38,7 @@ def main():
     W = 0
     for k in range (5):
         W = k * 2
-        H = generate_hamiltonian(100, W)
+        H = generate_hamiltonian(10000, W)
     
         energies = eigen_values(H)
  
@@ -53,8 +53,8 @@ def main():
     plt.title('Density of States')
     plt.xlabel("E")
     plt.legend()
-    plt.savefig("100-W-0-4e3.png")
-    plt.show()
+    plt.savefig("10000-W-0-4e3.png")
+    #plt.show()
     
     #print(H)
 
