@@ -2,6 +2,7 @@ import numpy as np
 from numpy import linalg as LA
 import scipy
 import math
+import matplotlib.pyplot as plt
 
 def generate_hamiltonian(size,W):
     dims = (size,size)
@@ -21,7 +22,7 @@ def generate_hamiltonian(size,W):
 
 def eigen_values(matrix):
     eig_vals = LA.eigvalsh(matrix)
-    print (eig_vals)
+    #print (eig_vals)
     return eig_vals
 
 def DOS (eig_vals, eta, energy):
@@ -34,12 +35,23 @@ def DOS (eig_vals, eta, energy):
 
 def main():
 
-    H = generate_hamiltonian(5, 0)
+    H = generate_hamiltonian(20, 0)
     
     energies = eigen_values(H)
-    DOS_o = DOS(energies, 0.5, 0)
-    print(DOS_o)
-    print(H)
+    
+    vals = []
+
+    for i in range (-1000,1000):
+        vals.append(DOS(energies, .5, i/100))
+
+    plt.plot(range(-1000,1000),vals,label="W=0")
+    plt.xticks(np.arange(-1000, 1100, step=100),range(-10,11,))
+    plt.title('Density of States')
+    plt.xlabel("E")
+    plt.legend()
+    plt.show()
+    
+    #print(H)
 
     
 main()
