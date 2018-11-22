@@ -1,5 +1,6 @@
 import numpy as np
 from numpy import linalg as LA
+
 import scipy
 import math
 import matplotlib.pyplot as plt
@@ -30,13 +31,25 @@ def DOS (eig_vals, eta, energy):
     for i in eig_vals:
         retVal += eta / ((energy - i)**2 + eta **2)
     retVal /= math.pi
-    retVal /= eig_vals.size
+    retVal /= eig_vals.shape[0]
     return retVal
+
+def greens_matrix(hamiltonian,E):
+    #inv_hamiltonian = LA.inv(hamiltonian)
+    identity = np.eye(hamiltonian.shape[0])
+    print(identity)
+
+    #for i in range(identity.size):
+    #    identity[i][i] = identity[i][i]*E
+    identity = identity * E
+    print(identity)
+    return identity - hamiltonian
+    
 
 def main():
     
     W = 0
-    for k in range (5):
+    '''for k in range (5):
         W = k * 2
         H = generate_hamiltonian(10000, W)
     
@@ -55,8 +68,13 @@ def main():
     plt.legend()
     plt.savefig("10000-W-0-8.svg", format="svg", dpi= 1200)
     #plt.show()
-    
+    '''
     #print(H)
 
-    
+    H = generate_hamiltonian(5,W)
+    energies = eigen_values(H)
+
+    greens_matrix(H,0)
+
+
 main()

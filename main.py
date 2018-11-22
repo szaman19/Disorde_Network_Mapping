@@ -1,8 +1,9 @@
 from __future__ import division
 from multiprocessing import process
 from multiprocessing import pool as Pool
-
+from threading import Thread
 import os
+import copy
 import networkx as nx
 import numpy as np
 import matplotlib
@@ -81,7 +82,32 @@ def clustering_coefficient(graph, label):
     total = total / 500
     out = (str(total),label)
     return out
+def cc (graph, result):
+    c_c = nx.average_clustering(graph, weight='weight')
+    result[1] = c_c
 
+def avg_path (graph,result):
+    avg = nx.average_shortest_path_length(graph)
+    result[0] = avg 
+def small_world_sigma (graph, label):
+    #sigma = nx.algorithms.smallworld.sigma(graph)
+    
+    results = [None]*2
+    graph2 = copy.deepcopy(graph)
+    thread_1 = Thread(target=cc,args=(graph,results))
+    thread_2 = Thread(target=avg_path,args=(graph2,results))
+    thread_1.start()
+    thread_2.start()
+    thread_1.join()
+    thread_2.join()
+    
+    sigma = results[1]/results[0]
+
+    label = label.replace(".","d")
+    file_open = open("Pe-1d-Diffusion-small-world-W-"+label+".txt","w")
+    label = "W=" + label + "\n" 
+    out = (str(sigma),label)
+    return out
 def trial():
     pool = Pool.Pool(processes=4)
     results = [pool.apply(clustering_coefficient, args=(x,x*2,)) for x in range(1,7)]
@@ -149,11 +175,11 @@ def main():
     labels.append(lab7)
     
     pool = Pool.Pool(processes=8)
-    results = [pool.apply_async(clustering_coefficient, args=(graphs[x],labels[x],)) for x in range(8)]
+    results = [pool.apply_async(small_world_sigma, args=(graphs[x],labels[x],)) for x in range(8)]
     output = [p.get() for p in results]
     print(output)
 
-    file_output = open("Pe-1d-500-Diffusion-Aij-NoRec-CC.txt",'w')
+    file_output = open("Pe-1d-500-Diffusion-Aij-NoRec-Small-World-Sigma.txt",'w')
 
     for i in output:
         s=' '.join(i)
