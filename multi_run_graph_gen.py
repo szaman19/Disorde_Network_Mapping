@@ -17,7 +17,7 @@ def main():
                 data_array.append(float(eachline))
             if(len(eachline.split()) > 2):
                 print(eachline.split())
-                Label = eachline.split()[2]
+                Label = eachline.split()[2].replace(".","d")
         x=range(0,len(data_array))
         
         plt.plot(x,data_array, color=cmap(i),label=Label)
