@@ -46,33 +46,43 @@ def average_path_generator(graph,label,data_file):
     j = 1
     i = 1
     steps = 0
-    while (steps < 501):
-        i = 1
-        j = 1 +steps
-        counter = 0
-        total_length = 0
-        while(j < 501):
-            total_length += all_path_lengths[i][j]
-            counter +=1
-           # print(i,j)
-            i += 1
-            j += 1
-        if (counter != 0):
+
+   # print(all_path_lengths[0])
+    #while (steps < 501):
+    #    i = 1
+    #    j = (1 +steps ) 
+    #    counter = 0
+    #    total_length = 0
+    #    while(j < 501):
+    #        total_length += all_path_lengths[i][j]
+    #        counter +=1
+    #        print(i,j)
+    #        i += 1
+    #        j += 1
+    #    if (counter != 0):
             #print(total_length/ counter)
-            average_path.append(total_length/counter)
-        steps +=1
+    #        average_path.append(total_length/counter)
+    #    steps +=1
+    average_path = [0] * 500
+    for i in range(1,501):
+        for k in range(1,501):
+            index = int(abs(i-k))
+            average_path[index] += all_path_lengths[i][k]
+
     label.replace(".", "d")
     print(label)
     results = open("Shortest-Paths-"+data_file,"w")
-    results.write("W = "+label)
+    results.write("W = "+label + '\n')
     for num in average_path:
-        results.write(str(num)+"\n")
+        results.write(str(num/500)+"\n")
+    results.close()
 
 def clustering_coefficient(graph, label):
     cc = nx.clustering(graph, weight='weight')
     label = label.replace(".","d")
     file_open = open("Pe-1D-Diffusion-CC-NoRec-W-"+label+".txt", 'w')
-    
+    file_open = open("Pe-1D-Diffusion-CC-NoRec-W-"+label+".txt", 'w')
+ 
     total = 0
     for key,value in cc.items():
         str_out = str(key) + "-" + str(value)+"\n"
@@ -91,23 +101,31 @@ def avg_path (graph,result):
     result[0] = avg 
 def small_world_sigma (graph, label):
     #sigma = nx.algorithms.smallworld.sigma(graph)
+   
+   
+    #results = [None]*2
+    #graph2 = copy.deepcopy(graph)
+    #thread_1 = Thread(target=cc,args=(graph,results))
+    #thread_2 = Thread(target=avg_path,args=(graph2,results))
+    #thread_1.start()
+    #thread_2.start()
+    #thread_1.join()
+    #thread_2.join()
     
-    results = [None]*2
-    graph2 = copy.deepcopy(graph)
-    thread_1 = Thread(target=cc,args=(graph,results))
-    thread_2 = Thread(target=avg_path,args=(graph2,results))
-    thread_1.start()
-    thread_2.start()
-    thread_1.join()
-    thread_2.join()
-    
-    sigma = results[1]/results[0]
+    #sigma = results[1]/results[0]
 
+    #label = label.replace(".","d")
+    #file_open = open("Pe-1d-Diffusion-small-world-W-"+label+".txt","w")
+    #label = "W=" + label + "\n"
+    
+
+    #out = (str(sigma),label)
+
+    
     label = label.replace(".","d")
-    file_open = open("Pe-1d-Diffusion-small-world-W-"+label+".txt","w")
-    label = "W=" + label + "\n" 
-    out = (str(sigma),label)
-    return out
+    f = "Diffusion-500-W-"+label+".txt"
+    average_path_generator(graph,label,f)
+    return (str(0),str(0))
 def trial():
     pool = Pool.Pool(processes=4)
     results = [pool.apply(clustering_coefficient, args=(x,x*2,)) for x in range(1,7)]
@@ -194,16 +212,16 @@ def main():
     labels.append(lab10)
 
     pool = Pool.Pool(processes=len(graphs))
-    results = [pool.apply_async(small_world_sigma, args=(graphs[x],labels[x],)) for x in range(len(graphs))]
+    results = [pool.apply_async(small_world_sigma, args=(graphs[x],labels[x])) for x in range(len(graphs))]
     output = [p.get() for p in results]
     print(output)
 
-    file_output = open("Pe-1d-500-Diffusion-Aij-NoRec-Small-World-Sigma-Self-Generated.txt",'w')
+    #file_output = open("Pe-1d-500-Diffusion-Aij-NoRec-Small-World-Sigma-Self-Generated.txt",'w')
 
-    for i in output:
-        s=' '.join(i)
-        file_output.write(s)
-    file_output.close()
+    #for i in output:
+    #    s='\t'.join(i)
+    #    file_output.write(s)
+    #file_output.close()
 
 main()
 #trial()

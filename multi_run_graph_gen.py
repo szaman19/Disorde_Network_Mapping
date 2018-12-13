@@ -16,10 +16,12 @@ def main():
             if(len(eachline.split()) < 2):
                 data_array.append(float(eachline))
             if(len(eachline.split()) > 2):
-                Label = eachline
+                print(eachline.split())
+                Label = eachline.split()[2]
         x=range(0,len(data_array))
         
         plt.plot(x,data_array, color=cmap(i),label=Label)
+        plt.savefig(Label+'.png', dpi=400)
     plt.legend()
     plt.show()
 
