@@ -116,7 +116,7 @@ def trial():
 def main():
     cwd = os.getcwd()
     
-    cwd += '500_Diffusion_data/'
+    cwd += '/500_Diffusion_data/'
     graphs = []
     labels = []
 
@@ -178,27 +178,27 @@ def main():
     data_file8='w-0-8-E-0-diffusion-500.txt'
     file_name8 = cwd+data_file8
     graph8,lab8 = generate_graph(file_name8)
-    graph.append(graph8)
+    graphs.append(graph8)
     labels.append(lab8)
 
     data_file9 = 'w-0-9-E-0-diffusion-500.txt'
     file_name9 = cwd+data_file8
     graph9,lab9 = generate_graph(file_name9)
-    graph.append(graph9)
+    graphs.append(graph9)
     labels.append(lab9)
 
     data_file10 = 'w-1-0-E-0-diffusion-500.txt'
     file_name10 = cwd + data_file10
     graph10,lab10 = generate_graph(file_name10)
-    graph.append(graph10)
+    graphs.append(graph10)
     labels.append(lab10)
 
-    pool = Pool.Pool(processes=8)
+    pool = Pool.Pool(processes=len(graphs))
     results = [pool.apply_async(small_world_sigma, args=(graphs[x],labels[x],)) for x in range(len(graphs))]
     output = [p.get() for p in results]
     print(output)
 
-    file_output = open("Pe-1d-500-Diffusion-Aij-NoRec-Small-World-Sigma.txt",'w')
+    file_output = open("Pe-1d-500-Diffusion-Aij-NoRec-Small-World-Sigma-Self-Generated.txt",'w')
 
     for i in output:
         s=' '.join(i)
