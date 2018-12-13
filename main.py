@@ -27,7 +27,7 @@ def generate_graph(file_name):
             site_i = int(data_points[0])
             site_j = int(data_points[1])
             if (site_i != site_j):
-                corr = float(data_points[2])
+                corr = 1/float(data_points[2])
             else:
                 corr = 0
         #Regular division is not helpful in this situation. Make sure to not add when i = j, because corr == inf
@@ -101,29 +101,29 @@ def small_world_sigma (graph, label):
     #sigma = nx.algorithms.smallworld.sigma(graph)
    
    
-    #results = [None]*2
-    #graph2 = copy.deepcopy(graph)
-    #thread_1 = Thread(target=cc,args=(graph,results))
-    #thread_2 = Thread(target=avg_path,args=(graph2,results))
-    #thread_1.start()
-    #thread_2.start()
-    #thread_1.join()
-    #thread_2.join()
+    results = [None]*2
+    graph2 = copy.deepcopy(graph)
+    thread_1 = Thread(target=cc,args=(graph,results))
+    thread_2 = Thread(target=avg_path,args=(graph2,results))
+    thread_1.start()
+    thread_2.start()
+    thread_1.join()
+    thread_2.join()
     
-    #sigma = results[1]/results[0]
+    sigma = results[1]/results[0]
 
-    #label = label.replace(".","d")
-    #file_open = open("Pe-1d-Diffusion-small-world-W-"+label+".txt","w")
-    #label = "W=" + label + "\n"
-    
-
-    #out = (str(sigma),label)
-
-    
     label = label.replace(".","d")
-    f = "Diffusion-500-W-"+label+".txt"
-    average_path_generator(graph,label,f)
-    return (str(0),str(0))
+    file_open = open("Pe-1d-Diffusion-small-world-W-"+label+".txt","w")
+    label = "W=" + label + "\n"
+    
+
+    out = (str(sigma),label)
+
+    
+    #label = label.replace(".","d")
+    #f = "Diffusion-500-W-"+label+".txt"
+    #average_path_generator(graph,label,f)
+    return out
 def trial():
     pool = Pool.Pool(processes=4)
     results = [pool.apply(clustering_coefficient, args=(x,x*2,)) for x in range(1,7)]
@@ -139,14 +139,14 @@ def main():
     data_file = 'w-0-E-0-diffusion-500.txt'
     file_name = cwd+data_file
     graph,lab =  generate_graph(file_name)
-    average_path_generator(graph,lab, data_file)
+    #average_path_generator(graph,lab, data_file)
     
     graphs.append(graph)
     labels.append(lab)
     data_file1 = 'w-0-1-E-0-diffusion-500.txt'
     file_name1 = cwd+data_file1
     graph1,lab1 = generate_graph(file_name1)
-    average_path_generator(graph1,lab1, data_file1)
+    #average_path_generator(graph1,lab1, data_file1)
     
     graphs.append(graph1)
     labels.append(lab1)
@@ -154,74 +154,77 @@ def main():
     data_file2 = 'w-0-2-E-0-diffusion-500.txt' 
     file_name2 = cwd+data_file2
     graph2,lab2 = generate_graph(file_name2)
-    average_path_generator(graph2,lab2, data_file2)
+    #average_path_generator(graph2,lab2, data_file2)
     graphs.append(graph2)
     labels.append(lab2)
     
     data_file3 = 'w-0-3-E-0-diffusion-500.txt' 
     file_name3 = cwd+data_file3
     graph3,lab3 = generate_graph(file_name3)
-    average_path_generator(graph3,lab3, data_file3)
+    #average_path_generator(graph3,lab3, data_file3)
     graphs.append(graph3)
     labels.append(lab3)
     
     data_file4 = 'w-0-4-E-0-diffusion-500.txt' 
     file_name4 = cwd+data_file4
     graph4,lab4 = generate_graph(file_name4)
-    average_path_generator(graph4,lab4, data_file4)
+    #average_path_generator(graph4,lab4, data_file4)
     graphs.append(graph4)
     labels.append(lab4)
 
     data_file5 = 'w-0-5-E-0-diffusion-500.txt' 
     file_name5 = cwd+data_file5
     graph5,lab5 = generate_graph(file_name5)
-    average_path_generator(graph5,lab5, data_file5)
+    #average_path_generator(graph5,lab5, data_file5)
     graphs.append(graph5)
     labels.append(lab5)
 
     data_file6 = 'w-0-6-E-0-diffusion-500.txt' 
     file_name6 = cwd+data_file6
     graph6,lab6 = generate_graph(file_name6)
-    average_path_generator(graph6,lab6, data_file6)
+    #average_path_generator(graph6,lab6, data_file6)
     graphs.append(graph6)
     labels.append(lab6)
-    '''
+    
     data_file7 = 'w-0-7-E-0-diffusion-500.txt' 
     file_name7 = cwd+data_file7
     graph7,lab7 = generate_graph(file_name7)
-    average_path_generator(graph7,lab7, data_file7)    
+    #average_path_generator(graph7,lab7, data_file7)    
     graphs.append(graph7)
     labels.append(lab7)
     
     data_file8='w-0-8-E-0-diffusion-500.txt'
     file_name8 = cwd+data_file8
     graph8,lab8 = generate_graph(file_name8)
+    #average_path_generator(graph8,lab8,data_file8)
     graphs.append(graph8)
     labels.append(lab8)
 
     data_file9 = 'w-0-9-E-0-diffusion-500.txt'
     file_name9 = cwd+data_file9
     graph9,lab9 = generate_graph(file_name9)
+    #average_path_generator(graph9,lab9,data_file9)
     graphs.append(graph9)
     labels.append(lab9)
 
     data_file10 = 'w-1-0-E-0-diffusion-500.txt'
     file_name10 = cwd + data_file10
     graph10,lab10 = generate_graph(file_name10)
+    #average_path_generator(graph10,lab10,data_file10)
     graphs.append(graph10)
     labels.append(lab10)
-    '''
-    #pool = Pool.Pool(processes=len(graphs))
-    #results = [pool.apply_async(small_world_sigma, args=(graphs[x],labels[x])) for x in range(len(graphs))]
-    #output = [p.get() for p in results]
-    #print(output)
+    
+    pool = Pool.Pool(processes=len(graphs))
+    results = [pool.apply_async(small_world_sigma, args=(graphs[x],labels[x])) for x in range(len(graphs))]
+    output = [p.get() for p in results]
+    print(output)
 
-    #file_output = open("Pe-1d-500-Diffusion-Aij-NoRec-Small-World-Sigma-Self-Generated.txt",'w')
+    file_output = open("Pe-1d-500-Diffusion-Aij-NoRec-Small-World-Sigma-Self-Generated.txt",'w')
 
-    #for i in output:
-    #    s='\t'.join(i)
-    #    file_output.write(s)
-    #file_output.close()
-
+    for i in output:
+        s='\t'.join(i)
+        file_output.write(s)
+    file_output.close()
+    
 main()
 #trial()
