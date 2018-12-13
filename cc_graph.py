@@ -3,9 +3,6 @@ import matplotlib.pyplot as plt
 import sys
 
 def main():
-    file_list = []
-    
-    output_file_name = sys.argv[1]
     cmap = plt.cm.get_cmap('hsv',len(sys.argv))     
     for i in range(1,len(sys.argv)):
         
