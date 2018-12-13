@@ -110,7 +110,7 @@ def small_world_sigma (graph, label):
     thread_1.join()
     thread_2.join()
     
-    sigma = results[0]/results[1]
+    sigma = results[1]/results[0]
 
     label = label.replace(".","d")
     file_open = open("Pe-1d-Diffusion-small-world-W-"+label+".txt","w")
@@ -214,6 +214,20 @@ def main():
     graphs.append(graph10)
     labels.append(lab10)
     
+
+    data_file11 = 'Pe-1D-500-Diffusion-Aij-disW-0d1.txt'
+    file_name11 = cwd + data_file11
+    graph11,lab11 = generate_graph(file_name11)
+
+    graphs.append(graph11)
+    labels.append(lab11)
+
+    data_file12 = 'Pe-1D-500-Diffusion-Aij-disW-0d2.txt'
+    file_name12 = cwd + data_file12
+    graph12,lab12 = generate_graph(file_name12)
+
+    graphs.append(graph12)
+    labels.append(lab12)
     pool = Pool.Pool(processes=len(graphs))
     results = [pool.apply_async(small_world_sigma, args=(graphs[x],labels[x])) for x in range(len(graphs))]
     output = [p.get() for p in results]
