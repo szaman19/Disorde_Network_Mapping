@@ -115,67 +115,86 @@ def trial():
 
 def main():
     cwd = os.getcwd()
-    #Pe-1D-Ns100-Aij-disW-0.txt
+    
+    cwd += '500_Diffusion_data/'
     graphs = []
     labels = []
 
-    data_file = 'Pe-1D-500-Diffusion-Aij-disW-0.txt'
-    file_name = cwd+'/data/'+data_file
+    data_file = 'w-0-E-0-diffusion-500.txt'
+    file_name = cwd+data_file
     graph,lab =  generate_graph(file_name)
     #average_path_generator(graph,lab, data_file)
     graphs.append(graph)
     labels.append(lab)
-    data_file1 = 'Pe-1D-500-Diffusion-Aij-disW-0d0.txt'
-    file_name1 = cwd+'/data/'+data_file1
+    data_file1 = 'w-0-1-E-0-diffusion-500.txt'
+    file_name1 = cwd+data_file1
     graph1,lab1 = generate_graph(file_name1)
     #average_path_generator(graph1,lab1, data_file1)
     graphs.append(graph1)
     labels.append(lab1)
 
-    data_file2 = 'Pe-1D-500-Diffusion-Aij-disW-0d1.txt' 
-    file_name2 = cwd+'/data/'+data_file2
+    data_file2 = 'w-0-2-E-0-diffusion-500.txt' 
+    file_name2 = cwd+data_file2
     graph2,lab2 = generate_graph(file_name2)
     #average_path_generator(graph2,lab2, data_file2)
     graphs.append(graph2)
     labels.append(lab2)
     
-    data_file3 = 'Pe-1D-500-Diffusion-Aij-disW-0d2.txt' 
-    file_name3 = cwd+'/data/'+data_file3
+    data_file3 = 'w-0-3-E-0-diffusion-500.txt' 
+    file_name3 = cwd+data_file3
     graph3,lab3 = generate_graph(file_name3)
     #average_path_generator(graph3,lab3, data_file3)
     graphs.append(graph3)
     labels.append(lab3)
     
-    data_file4 = 'Pe-1D-500-Diffusion-Aij-disW-n0d7.txt' 
-    file_name4 = cwd+'/data/'+data_file4
+    data_file4 = 'w-0-4-E-0-diffusion-500.txt' 
+    file_name4 = cwd+data_file4
     graph4,lab4 = generate_graph(file_name4)
     #average_path_generator(graph4,lab4, data_file4)
     graphs.append(graph4)
     labels.append(lab4)
 
-    data_file5 = 'Pe-1D-500-Diffusion-Aij-disW-n0d8.txt' 
-    file_name5 = cwd+'/data/'+data_file5
+    data_file5 = 'w-0-5-E-0-diffusion-500.txt' 
+    file_name5 = cwd+data_file5
     graph5,lab5 = generate_graph(file_name5)
     #average_path_generator(graph5,lab5, data_file5)
     graphs.append(graph5)
     labels.append(lab5)
 
-    data_file6 = 'Pe-1D-500-Diffusion-Aij-disW-n0d9.txt' 
-    file_name6 = cwd+'/data/'+data_file6
+    data_file6 = 'w-0-6-E-0-diffusion-500.txt' 
+    file_name6 = cwd+data_file6
     graph6,lab6 = generate_graph(file_name6)
     #average_path_generator(graph6,lab6, data_file6)
     graphs.append(graph6)
     labels.append(lab6)
 
-    data_file7 = 'Pe-1D-500-Diffusion-Aij-disW-n1d0.txt' 
-    file_name7 = cwd+'/data/'+data_file7
+    data_file7 = 'w-0-7-E-0-diffusion-500.txt' 
+    file_name7 = cwd+data_file7
     graph7,lab7 = generate_graph(file_name7)
     #average_path_generator(graph7,lab7, data_file7)    
     graphs.append(graph7)
     labels.append(lab7)
-    
+
+    data_file8='w-0-8-E-0-diffusion-500.txt'
+    file_name8 = cwd+data_file8
+    graph8,lab8 = generate_graph(file_name8)
+    graph.append(graph8)
+    labels.append(lab8)
+
+    data_file9 = 'w-0-9-E-0-diffusion-500.txt'
+    file_name9 = cwd+data_file8
+    graph9,lab9 = generate_graph(file_name9)
+    graph.append(graph9)
+    labels.append(lab9)
+
+    data_file10 = 'w-1-0-E-0-diffusion-500.txt'
+    file_name10 = cwd + data_file10
+    graph10,lab10 = generate_graph(file_name10)
+    graph.append(graph10)
+    labels.append(lab10)
+
     pool = Pool.Pool(processes=8)
-    results = [pool.apply_async(small_world_sigma, args=(graphs[x],labels[x],)) for x in range(8)]
+    results = [pool.apply_async(small_world_sigma, args=(graphs[x],labels[x],)) for x in range(len(graphs))]
     output = [p.get() for p in results]
     print(output)
 
@@ -185,40 +204,6 @@ def main():
         s=' '.join(i)
         file_output.write(s)
     file_output.close()
-    #print(result
-        
-    
-    #average_path_generator(graph, data_file)
-    #average_path_generator(graph1, data_file1)
-    #average_path_generator(graph2, data_file2)
-    #nx.draw(graph, with_labels=True)
-    #plt.show()
-    #print(graph.number_of_nodes())
-    #print(graph.number_of_edges())
-    #print(nx.single_source_dijkstra_path(graph,1))
-    #print(nx.single_source_dijkstra_path_length(graph,1))
 
-    #all_path_lengths = dict(nx.all_pairs_dijkstra_path_length(graph))
-    
-    #for i in range(1,401,40):
-    #    lattice_spacing = range(1-i,401-i)
-    #    path =[]
-    #    for j in range(1,401):
-    #        path.append(all_path_lengths[i][j])
-        #path = all_path_lengths[i]
-    #    label = "Node " + str(i)
-    #    plt.plot(lattice_spacing, path,label=label)
-    #plt.title(data_file.rstrip(".txt"))
-    #plt.xlabel("Lattice Spacing")
-    #plt.legend()
-    #plt.show()
-
-    #lattice_spacing = range(0,100)
-    #fig,ax = plt.subplots()
-    #ax.plot(lattice_spacing, average_path)
-    #ax.set(xlabel='Lattice Spacing', ylabel='Transition Weight', title='Shortest Paths')
-    #ax.grid()
-    #fig.savefig("test6.png")
-    #plt.show()
 main()
 #trial()
