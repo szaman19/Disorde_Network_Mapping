@@ -182,7 +182,7 @@ def main():
     labels.append(lab8)
 
     data_file9 = 'w-0-9-E-0-diffusion-500.txt'
-    file_name9 = cwd+data_file8
+    file_name9 = cwd+data_file9
     graph9,lab9 = generate_graph(file_name9)
     graphs.append(graph9)
     labels.append(lab9)
