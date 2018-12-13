@@ -26,5 +26,6 @@ def main():
     plt.xlabel('Disorder (W)')
     plt.ylabel('Small World Coefficients ($\sigma$)')
     plt.grid(True)
+    plt.savefig('small_world.png')
     plt.show()
 main()
