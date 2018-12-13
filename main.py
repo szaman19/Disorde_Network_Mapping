@@ -95,7 +95,7 @@ def cc (graph, result):
     result[1] = c_c
 
 def avg_path (graph,result):
-    avg = nx.average_shortest_path_length(graph)
+    avg = nx.average_shortest_path_length(graph, weight='weight')
     result[0] = avg 
 def small_world_sigma (graph, label):
     #sigma = nx.algorithms.smallworld.sigma(graph)
@@ -115,8 +115,9 @@ def small_world_sigma (graph, label):
     label = label.replace(".","d")
     file_open = open("Pe-1d-Diffusion-small-world-W-"+label+".txt","w")
     label = "W=" + label + "\n"
-    
-
+    file_open.write(label)
+    file_open.write("CC:\t" + str(results[1]) + "\t" + str(results[0]))
+    print(label + "CC:\t" + str(results[1]) + "\t" + str(results[0]))
     out = (str(sigma),label)
 
     
