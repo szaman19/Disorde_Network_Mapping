@@ -161,12 +161,13 @@ def invert_matrix(hamiltonian):
     #pretty_print_mat(greens_matrix)
     #pretty_print(inverse_mat)
 
-def output(mat):
-    f_open = open('w-0-E-0-diffusion-500.txt','w')
+def output(mat,W):
+    f_open = open('w-'+str(W).replace('.','-')+'-E-0-diffusion-500.txt','w')
+    f_open.write("For disorder  = " + str(W)+'\n') 
     dims = mat.shape
     for i in range(dims[0]):
         for k in range(dims[0]):
-            line = str(i+1) + '\t' + str(k+1) + '\t' + str(mat.item(i,k)) + '\n'
+            line = str(i+1) + '\t' + str(k+1) + '\t' + str(np.real(mat.item(i,k))) + '\n'
             f_open.write(line)
     f_open.close()
 
@@ -219,7 +220,7 @@ def main():
     #plt.show()
     '''
     #print(H)
-    H = generate_hamiltonian(500,W)
+    #H = generate_hamiltonian(500,W)
     #pretty_print_mat(H)
     #print("*"*80)
     #print("Generating Hamiltonian")
@@ -234,6 +235,15 @@ def main():
     
     #diff_op_avg = np.zeros((500,500),dtype=complex)
 
+    for i in range (2,11):
+        W = i / 10
+        Diffusion_Matrix = np.zeros((500,500),dtype=complex)
+        for k in range(1000):
+            print(k)
+            H = generate_hamiltonian(500,W)
+            Diffusion_Matrix += greens_matrix(H,0,0.01)
+        Diffusion_Matrix = Diffusion_Matrix / 1000
+        output(Diffusion_Matrix,W)
 
     #for i in range (100):
     #    H = generate_hamiltonian(500,W-(i*.1))
@@ -243,5 +253,5 @@ def main():
     #    diff_op_avg += diffusion + diffusion_2
     #diff_op_avg = diff_op_avg / 200
     #output(diff_op_avg)
-    output(greens_matrix(H,0,0.01))
+    #output(greens_matrix(H,0,0.01),W)
 main()
