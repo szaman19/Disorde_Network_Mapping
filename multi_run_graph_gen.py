@@ -19,8 +19,8 @@ def main():
                 print(eachline.split())
                 Label = eachline.split()[2].replace(".","d")
         x=range(0,len(data_array))
-        
-        plt.plot(x,data_array, color=cmap(i),label=Label)
+        #print(cmap(i))
+        plt.plot(x,data_array, color=cmap(i),marker='.',label=Label, )
         plt.savefig(Label+'.png', dpi=400)
     plt.legend()
     plt.show()

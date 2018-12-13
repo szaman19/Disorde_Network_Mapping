@@ -140,7 +140,7 @@ def main():
     file_name = cwd+data_file
     graph,lab =  generate_graph(file_name)
     average_path_generator(graph,lab, data_file)
-    '''
+    
     graphs.append(graph)
     labels.append(lab)
     data_file1 = 'w-0-1-E-0-diffusion-500.txt'
@@ -192,7 +192,7 @@ def main():
     average_path_generator(graph7,lab7, data_file7)    
     graphs.append(graph7)
     labels.append(lab7)
-    '''
+    
     data_file8='w-0-8-E-0-diffusion-500.txt'
     file_name8 = cwd+data_file8
     graph8,lab8 = generate_graph(file_name8)
