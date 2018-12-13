@@ -110,7 +110,7 @@ def small_world_sigma (graph, label):
     thread_1.join()
     thread_2.join()
     
-    sigma = results[1]/results[0]
+    sigma = results[0]/results[1]
 
     label = label.replace(".","d")
     file_open = open("Pe-1d-Diffusion-small-world-W-"+label+".txt","w")
