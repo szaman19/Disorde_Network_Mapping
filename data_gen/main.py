@@ -235,7 +235,7 @@ def main():
     
     #diff_op_avg = np.zeros((500,500),dtype=complex)
 
-    for i in range (2,11):
+    for i in range (11,16):
         W = i / 10
         Diffusion_Matrix = np.zeros((500,500),dtype=complex)
         for k in range(1000):

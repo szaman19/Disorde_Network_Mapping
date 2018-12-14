@@ -116,8 +116,8 @@ def small_world_sigma (graph, label):
     file_open = open("Pe-1d-Diffusion-small-world-W-"+label+".txt","w")
     label = "W=" + label + "\n"
     file_open.write(label)
-    file_open.write("CC:\t" + str(results[1]) + "\t" + str(results[0]))
-    print(label + "CC:\t" + str(results[1]) + "\t" + str(results[0]))
+    file_open.write("CC:\t" + str(results[1]) + "\t Shortest_Avg_Path \t" + str(results[0]))
+    print(label + "CC:\t" + str(results[1]) + "\t Shortest_Avg_Ppath \t" + str(results[0]))
     out = (str(sigma),label)
 
     
@@ -229,6 +229,46 @@ def main():
 
     graphs.append(graph12)
     labels.append(lab12)
+    
+    
+    data_file13 = 'w-1-1-E-0-diffusion-500.txt'
+    file_name13 = cwd + data_file13
+    graph13,lab13 = generate_graph(file_name13)
+    #average_path_generator(graph10,lab10,data_file10)
+    graphs.append(graph13)
+    labels.append(lab13)
+
+    
+    data_file14 = 'w-1-2-E-0-diffusion-500.txt'
+    file_name14 = cwd + data_file14
+    graph14,lab14 = generate_graph(file_name14)
+    #average_path_generator(graph10,lab10,data_file10)
+    graphs.append(graph14)
+    labels.append(lab14)
+
+    
+    data_file15 = 'w-1-3-E-0-diffusion-500.txt'
+    file_name15 = cwd + data_file15
+    graph15,lab15 = generate_graph(file_name15)
+    #average_path_generator(graph10,lab10,data_file10)
+    graphs.append(graph15)
+    labels.append(lab15)
+
+    data_file16 = 'w-1-4-E-0-diffusion-500.txt'
+    file_name16 = cwd + data_file16
+    graph16,lab16 = generate_graph(file_name16)
+    #average_path_generator(graph10,lab10,data_file10)
+    graphs.append(graph16)
+    labels.append(lab16)
+
+
+    data_file17 = 'w-1-5-E-0-diffusion-500.txt'
+    file_name17 = cwd + data_file17
+    graph17,lab17 = generate_graph(file_name17)
+    #average_path_generator(graph10,lab10,data_file10)
+    graphs.append(graph17)
+    labels.append(lab17)
+
     pool = Pool.Pool(processes=len(graphs))
     results = [pool.apply_async(small_world_sigma, args=(graphs[x],labels[x])) for x in range(len(graphs))]
     output = [p.get() for p in results]
