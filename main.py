@@ -91,7 +91,11 @@ def clustering_coefficient(graph, label):
     out = (str(total),label)
     return out
 def cc (graph, result):
-    c_c = nx.average_clustering(graph, weight='weight')
+    c_c_dic = nx.clustering(graph, weight='weight')
+    c_c = 0
+    for each in c_c_dic.values():
+        c_c += each
+    c_c /= 500
     result[1] = c_c
 
 def avg_path (graph,result):
@@ -141,9 +145,10 @@ def main():
     file_name = cwd+data_file
     graph,lab =  generate_graph(file_name)
     #average_path_generator(graph,lab, data_file)
-    
+     
     graphs.append(graph)
     labels.append(lab)
+    
     data_file1 = 'w-0-1-E-0-diffusion-500.txt'
     file_name1 = cwd+data_file1
     graph1,lab1 = generate_graph(file_name1)
@@ -268,13 +273,13 @@ def main():
     #average_path_generator(graph10,lab10,data_file10)
     graphs.append(graph17)
     labels.append(lab17)
-
+    
     pool = Pool.Pool(processes=len(graphs))
     results = [pool.apply_async(small_world_sigma, args=(graphs[x],labels[x])) for x in range(len(graphs))]
     output = [p.get() for p in results]
     print(output)
 
-    file_output = open("Pe-1d-500-Diffusion-Aij-NoRec-Small-World-Sigma-Self-Generated.txt",'w')
+    file_output = open("Small-World-Sigma-Self-Generated.txt",'w')
 
     for i in output:
         s='\t'.join(i)
