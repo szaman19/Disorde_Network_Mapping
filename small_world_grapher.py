@@ -21,7 +21,7 @@ def main():
     for i in coefficients:
         labels.append(i[1])
         vals.append(i[0])
-    plt.plot(labels,vals,'r.')
+    plt.plot(labels,vals,'ro')
     plt.title('Network Robustness')
     plt.xlabel('Disorder (W)')
     plt.ylabel('Small World Coefficients ($\sigma$)')
