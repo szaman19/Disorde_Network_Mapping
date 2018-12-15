@@ -46,89 +46,36 @@ def DOS (eig_vals, eta, energy):
     return retVal
 
 def greens_matrix(hamiltonian,E, eta):
-    #inv_hamiltonian = LA.inv(hamiltonian)
     
-    #print("*"*80)
-    #print("Calculating Eigenvalues and Eigenvectors")
     eig_vals, eig_vectors = scipy.linalg.eigh(hamiltonian)
-    dims = (len(eig_vals),len(eig_vals))
-    #print("*"*80)
-    #print("Printing each Eigenvalue")
-    #print(eig_vals)
-    #print("*"*80)
-    #print("Printing each Eigenstate")
-    '''
-    for i in range(len(eig_vals)):
-        print("eigenvalue :", eig_vals[i])
-        print("*"*60)
-        print("eigenvector :",eig_vectors[:,i])
-        print("*"*60)
-        print(np.dot(hamiltonian,eig_vectors[:,i])," == ", eig_vals[i]*eig_vectors[:,i])
-        #print(eig_vals[i],eig_vectors[:,i].shape,eig_vectors[:,i])
-    '''
-    #print("*"*80)
-    #print("Creating the matrices")
-    for i in range(len(eig_vals)):
-        row_vec = np.transpose(eig_vectors[:,i])
-        #print("Shape", row_vec.shape,row_vec)
-    #print("*"*80)
+    dims = (len(eig_vals),len(eig_vals))    
 
-    #print("Sum of the |n><n|: should be I")
-    I = np.zeros(dims,dtype=complex)
-    for i in range(len(eig_vals)):
-        vec = np.transpose(eig_vectors[:,i])
-        mat = np.tensordot(vec,vec,axes=0)
-        I += mat
-        #print("Shape ", mat.shape, mat)
-    #print(I)
-    #print("Doing the scalar multiplication")
-    
     greens_operator = np.zeros(dims,dtype=complex)
     diffusion_operator = np.zeros(dims,dtype=complex)
     inv = np.zeros(dims,dtype=complex)
     for i in range(len(eig_vals)):
-        #for j in range(diffusion_operator.shape[0]):
-
-        #    D_ij = 0 
-
-        #    for n in range(len(eig_vals)):
-        #        D_ij += (eig_vectors[:,n][i] * eig_vectors[:,n][j])**2/ ((E-eig_vals[n])**2 + eta **2)
-        #    diffusion_operator[i][j] = D_ij
         vec = eig_vectors[:,i]
         mat = np.tensordot(vec,vec,axes=0)
         mat_c = mat * (1/(E-eig_vals[i]-np.complex(0,eta)))
-        #mat_r = mat * (1/ (E - eig_vals[i]+np.complex(0,eta)))
+        
         greens_operator += mat_c
-        #inv += mat_r
-    #print("Advanced greens function")
-
-    #pretty_print(greens_operator)
+        
     inv = np.transpose(np.conj(greens_operator)) 
-    #print("Retarded greens function")
-    #pretty_print(inv)
-
-    max_element = -1
 
     for i in range(len(eig_vals)):
         for j in range(len(eig_vals)):
-            #print(mat_r[j,i],mat_c[i,j])
-            if (i == j):
-                diffusion_operator[i][j] = 0
-            else:
-                diffusion_operator[i][j] = np.abs(inv[j][i] * greens_operator[i][j])
-            if (np.abs(inv[j][i] * greens_operator[i][j]) > max_element):
-                max_element = np.abs(inv[j][i] * greens_operator[i][j])
+            diffusion_operator[i][j] = np.abs(inv[j][i] * greens_operator[i][j])
+                
+    return diffusion_operator
+def normalize_matrix(mat):
+    max_num = -1
+    for i in range(mat.shape[0]):
+        for k in range(mat.shape[0]):
+            if (np.abs(mat[i][k]) > max_num):
+                max_num = mat[i][k]
             
-    #diffusion_operator = np.matmul(inv,greens_operator)
-
-    #print("*"*80)
-    #print("Finished creating diffusion operator")
-    #print(greens_operat
-    #pretty_print(diffusion_operator)
-    #for i in range(dims[0]):
-    #    print("1 \t",i+1,"\t",diffusion_operator[0][i])
-    
-    return diffusion_operator / max_element
+    return mat/max_num
+ 
 def invert_matrix(hamiltonian):
     dims = (hamiltonian.shape[0],hamiltonian.shape[0])
     identity = np.matlib.eye(dims[0], dtype='complex')
@@ -198,44 +145,8 @@ def pretty_print_mat(mat):
 
 
 def main(): 
-    W = 0
-    '''for k in range (5):
-        W = k * 2
-        H = generate_hamiltonian(10000, W)
-    
-        energies = eigen_values(H)
- 
-        vals = []
-        
-        for i in range (-1000,1000):
-            vals.append(DOS(energies, .5, i/100))
-        label = "W = " + str(W)
-        plt.plot(range(-1000,1000),vals,label=label)
-        plt.xticks(np.arange(-1000, 1100, step=100),range(-10,11,))
-    
-    plt.title('Density of States')
-    plt.xlabel("E")
-    plt.legend()
-    plt.savefig("10000-W-0-8.svg", format="svg", dpi= 1200)
-    #plt.show()
-    '''
-    #print(H)
-    #H = generate_hamiltonian(500,W)
-    #pretty_print_mat(H)
-    #print("*"*80)
-    #print("Generating Hamiltonian")
-    #pretty_print(H)
-    #diffusion = invert_matrix(H)
 
-    #output(diffusion)
-    #energies = eigen_values(H)
-    
-    #reens_matrix(H,0,0)
-    #print(greens_matrix(H,0,0.001))
-    
-    #diff_op_avg = np.zeros((500,500),dtype=complex)
-
-    for i in range (11,16):
+    for i in range (0,16):
         W = i / 10
         Diffusion_Matrix = np.zeros((500,500),dtype=complex)
         for k in range(1000):
@@ -243,15 +154,7 @@ def main():
             H = generate_hamiltonian(500,W)
             Diffusion_Matrix += greens_matrix(H,0,0.01)
         Diffusion_Matrix = Diffusion_Matrix / 1000
-        output(Diffusion_Matrix,W)
+        Diffusion_Matrix = normalize_matrix(Diffusion_Matrix)
 
-    #for i in range (100):
-    #    H = generate_hamiltonian(500,W-(i*.1))
-    #    H_2 = generate_hamiltonian(500,W+(i*.1))
-    #    diffusion = greens_matrix(H,0,0.01)
-    #    diffusion_2 = greens_matrix(H_2,0,0.01)
-    #    diff_op_avg += diffusion + diffusion_2
-    #diff_op_avg = diff_op_avg / 200
-    #output(diff_op_avg)
-    #output(greens_matrix(H,0,0.01),W)
+        output(Diffusion_Matrix,W)
 main()
