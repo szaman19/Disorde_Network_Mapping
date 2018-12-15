@@ -278,13 +278,15 @@ def main():
     pool = Pool.Pool(processes=len(graphs))
     results = [pool.apply_async(small_world_sigma, args=(graphs[x],labels[x])) for x in range(len(graphs))]
     output = [p.get() for p in results]
-    print(output)
+    #print(output)
 
     file_output = open("Small-World-Sigma-Self-Generated.txt",'w')
     file_output.write("CC \t ASP \t Eff \t Sigma \t W \n")
     for i in output:
-        s='\t'.join(i)
+        #print(i)
+        s=' \t'.join(i)
         s+= '\n'
+        print(s)
         file_output.write(s)
     file_output.close()
     
