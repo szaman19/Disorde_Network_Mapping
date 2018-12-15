@@ -28,6 +28,7 @@ def graph_cc(graph):
         c_c += (G_3[i][i]/denom)
     c_c /= 500
     return c_c
+'''
 def main():
     files = ['w-0-E-0-diffusion-500.txt',
             'w-0-1-E-0-diffusion-500.txt',
@@ -58,4 +59,4 @@ def main():
         s='\t'.join(i)
         file_output.write(s)
     file_output.close()
-main()
+'''

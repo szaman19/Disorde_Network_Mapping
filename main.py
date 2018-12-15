@@ -91,7 +91,7 @@ def clustering_coefficient(graph, label):
     total = total / 500
     out = (str(total),label)
     return out
-def cc (graph, result):
+def clustering_coeff (graph, result):
     result[1] = cc.graph_cc(graph)
 
 def avg_path (graph,result):
@@ -103,7 +103,7 @@ def small_world_sigma (graph, label):
    
     results = [None]*2
     graph2 = copy.deepcopy(graph)
-    thread_1 = Thread(target=cc,args=(graph,results))
+    thread_1 = Thread(target=clustering_coeff,args=(graph,results))
     thread_2 = Thread(target=avg_path,args=(graph2,results))
     thread_1.start()
     thread_2.start()
@@ -276,9 +276,10 @@ def main():
     print(output)
 
     file_output = open("Small-World-Sigma-Self-Generated.txt",'w')
-    file_output.write("CC \t ASP \t Eff \t Sigma \t W")
+    file_output.write("CC \t ASP \t Eff \t Sigma \t W \n")
     for i in output:
         s='\t'.join(i)
+        s+= '\n'
         file_output.write(s)
     file_output.close()
     
