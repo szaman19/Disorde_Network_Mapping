@@ -149,11 +149,11 @@ def main():
     for i in range (0,16):
         W = i / 10
         Diffusion_Matrix = np.zeros((500,500),dtype=complex)
-        for k in range(1000):
+        for k in range(5000):
             print(k)
             H = generate_hamiltonian(500,W)
             Diffusion_Matrix += greens_matrix(H,0,0.01)
-        Diffusion_Matrix = Diffusion_Matrix / 1000
+        Diffusion_Matrix = Diffusion_Matrix / 5000
         Diffusion_Matrix = normalize_matrix(Diffusion_Matrix)
 
         output(Diffusion_Matrix,W)

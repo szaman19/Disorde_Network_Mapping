@@ -15,18 +15,41 @@ def per_graph_cc(file_name):
     file_name = CWD + file_name
     graph,label = graph_util.generate_graph(file_name)
 
-def graph_cc(graph):
+def graph_cc(graph,label,method="Barrat"):
     adjacency_matrix = nx.to_numpy_array(graph)
 
-    G = np.power(adjacency_matrix, 1/3)
-    G_3 = G @ G @ G
+    #print(adjacency_matrix)
+    #G = np.power(adjacency_matrix, 1/3)
+    #G_3 = G @ G @ G
     c_c = 0
-    for i in range(G.shape[0]):
-        denom = 0 
-        for k in range(adjacency_matrix.shape[0]):
-            denom += adjacency_matrix[i][k]
-        c_c += (G_3[i][i]/denom)
-    c_c /= 500
+
+    if (method == "Barrat"):
+        for i in range(adjacency_matrix.shape[0]):
+            weights = 0
+            sum_kj = 0
+            for k in range(adjacency_matrix.shape[0]):
+                for j in range(adjacency_matrix.shape[0]):
+                    if (i !=k and i != j and k!= j):
+                        sum_kj += (adjacency_matrix[i][k] + adjacency_matrix[i][j]) / 2
+                weights += adjacency_matrix[i][k]
+            c_c += sum_kj / (weights * (499))
+        c_c /= 500
+    
+    elif (method=="Zhang"):
+
+        for i in range(adjacency_matrix.shape[0]):
+            weights_2 = 0
+            sum_ij = 0
+            for k in range(adjacency_matrix.shape[0]):
+                weights_2 += (adjacency_matrix[i][k] ** 2)
+                sum_ij += adjacency_matrix[i][k]
+            denom = (sum_ij**2 - weights_2) 
+        
+            c_c += sum_ij#(G_3[i][i]/denom)
+        c_c /= 500
+    
+    print(label," \t",c_c)
+    
     return c_c
 '''
 def main():

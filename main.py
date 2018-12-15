@@ -91,8 +91,8 @@ def clustering_coefficient(graph, label):
     total = total / 500
     out = (str(total),label)
     return out
-def clustering_coeff (graph, result):
-    result[1] = cc.graph_cc(graph)
+def clustering_coeff (graph, result,label):
+    result[1] = cc.graph_cc(graph,label)
 
 def avg_path (graph,result):
     avg = nx.average_shortest_path_length(graph, weight='weight')
@@ -103,7 +103,7 @@ def small_world_sigma (graph, label):
    
     results = [None]*2
     graph2 = copy.deepcopy(graph)
-    thread_1 = Thread(target=clustering_coeff,args=(graph,results))
+    thread_1 = Thread(target=clustering_coeff,args=(graph,results,label))
     thread_2 = Thread(target=avg_path,args=(graph2,results))
     thread_1.start()
     thread_2.start()
@@ -137,7 +137,7 @@ def main():
     graphs = []
     labels = []
 
-    data_file = 'w-0-0-E-0-diffusion-500.txt'
+    data_file = 'w-0-E-0-diffusion-500.txt'
     file_name = cwd+data_file
     graph,lab =  generate_graph(file_name)
     #average_path_generator(graph,lab, data_file)
