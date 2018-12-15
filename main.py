@@ -217,20 +217,8 @@ def main():
     labels.append(lab10)
     
 
-    data_file11 = 'Pe-1D-500-Diffusion-Aij-disW-0d1.txt'
-    file_name11 = cwd + data_file11
-    graph11,lab11 = generate_graph(file_name11)
-
-    graphs.append(graph11)
-    labels.append(lab11)
-
-    data_file12 = 'Pe-1D-500-Diffusion-Aij-disW-0d2.txt'
-    file_name12 = cwd + data_file12
-    graph12,lab12 = generate_graph(file_name12)
-
-    graphs.append(graph12)
-    labels.append(lab12)
     
+        
     
     data_file13 = 'w-1-1-E-0-diffusion-500.txt'
     file_name13 = cwd + data_file13
@@ -247,7 +235,15 @@ def main():
     graphs.append(graph14)
     labels.append(lab14)
 
-    
+    data_file11 = 'Pe-1D-500-Diffusion-Aij-disW-0d1.txt'
+    file_name11 = cwd + data_file11
+    graph11,lab11 = generate_graph(file_name11)
+
+    graphs.append(graph11)
+    labels.append(lab11)
+
+
+
     data_file15 = 'w-1-3-E-0-diffusion-500.txt'
     file_name15 = cwd + data_file15
     graph15,lab15 = generate_graph(file_name15)
@@ -270,6 +266,15 @@ def main():
     graphs.append(graph17)
     labels.append(lab17)
     
+    data_file12 = 'Pe-1D-500-Diffusion-Aij-disW-0d2.txt'
+    file_name12 = cwd + data_file12
+    graph12,lab12 = generate_graph(file_name12)
+
+    graphs.append(graph12)
+    labels.append(lab12)
+
+
+
     pool = Pool.Pool(processes=len(graphs))
     results = [pool.apply_async(small_world_sigma, args=(graphs[x],labels[x])) for x in range(len(graphs))]
     output = [p.get() for p in results]
