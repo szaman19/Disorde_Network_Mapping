@@ -15,7 +15,19 @@ def per_graph_cc(file_name):
     file_name = CWD + file_name
     graph,label = graph_util.generate_graph(file_name)
 
+def graph_cc(graph):
+    adjacency_matrix = nx.to_numpy_array(graph)
 
+    G = np.power(adjacency_matrix, 1/3)
+    G_3 = G @ G @ G
+    c_c = 0
+    for i in range(G.shape[0]):
+        denom = 0 
+        for k in range(adjacency_matrix.shape[0]):
+            denom += adjacency_matrix[i][k]
+        c_c += (G_3[i][i]/denom)
+    c_c /= 500
+    return c_c
 def main():
     files = ['w-0-E-0-diffusion-500.txt',
             'w-0-1-E-0-diffusion-500.txt',

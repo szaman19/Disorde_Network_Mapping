@@ -8,6 +8,7 @@ import networkx as nx
 import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
+import cc
 
 def generate_graph(file_name):
     data = open(file_name)
@@ -91,12 +92,7 @@ def clustering_coefficient(graph, label):
     out = (str(total),label)
     return out
 def cc (graph, result):
-    c_c_dic = nx.clustering(graph, weight='weight')
-    c_c = 0
-    for each in c_c_dic.values():
-        c_c += each
-    c_c /= 500
-    result[1] = c_c
+    result[1] = cc.graph_cc(graph)
 
 def avg_path (graph,result):
     avg = nx.average_shortest_path_length(graph, weight='weight')
@@ -116,13 +112,13 @@ def small_world_sigma (graph, label):
     
     sigma = results[1]/results[0]
 
-    label = label.replace(".","d")
-    file_open = open("Pe-1d-Diffusion-small-world-W-"+label+".txt","w")
-    label = "W=" + label + "\n"
-    file_open.write(label)
-    file_open.write("CC:\t" + str(results[1]) + "\t Shortest_Avg_Path \t" + str(results[0]))
-    print(label + "CC:\t" + str(results[1]) + "\t Shortest_Avg_Ppath \t" + str(results[0]))
-    out = (str(sigma),label)
+    #label = label.replace(".","d")
+    #file_open = open("Pe-1d-Diffusion-small-world-W-"+label+".txt","w")
+    #label = "W=" + label + "\n"
+    #file_open.write(label)
+    #file_open.write("CC:\t" + str(results[1]) + "\t Shortest_Avg_Path \t" + str(results[0]))
+    #print(label + "CC:\t" + str(results[1]) + "\t Shortest_Avg_Ppath \t" + str(results[0]))
+    out = (str(results[1]),str(results[0]),str(1/results[0]),str(sigma),label)
 
     
     #label = label.replace(".","d")
@@ -141,7 +137,7 @@ def main():
     graphs = []
     labels = []
 
-    data_file = 'w-0-E-0-diffusion-500.txt'
+    data_file = 'w-0-0-E-0-diffusion-500.txt'
     file_name = cwd+data_file
     graph,lab =  generate_graph(file_name)
     #average_path_generator(graph,lab, data_file)
@@ -280,7 +276,7 @@ def main():
     print(output)
 
     file_output = open("Small-World-Sigma-Self-Generated.txt",'w')
-
+    file_output.write("CC \t ASP \t Eff \t Sigma \t W")
     for i in output:
         s='\t'.join(i)
         file_output.write(s)
