@@ -36,16 +36,17 @@ def graph_cc(graph,label,method="Barrat"):
         c_c /= 500
     
     elif (method=="Zhang"):
+        G = np.power(adjacency_matrix,1/3)
+        G_3 = G @ G @ G
 
         for i in range(adjacency_matrix.shape[0]):
-            weights_2 = 0
-            sum_ij = 0
+            denom = 0
+            
             for k in range(adjacency_matrix.shape[0]):
-                weights_2 += (adjacency_matrix[i][k] ** 2)
-                sum_ij += adjacency_matrix[i][k]
-            denom = (sum_ij**2 - weights_2) 
+                
+                denom += adjacency_matrix[i][k]
+            c_c += G_3[i][i]/(denom * (denom - 1))
         
-            c_c += sum_ij#(G_3[i][i]/denom)
         c_c /= 500
     
     print(label," \t",c_c)
