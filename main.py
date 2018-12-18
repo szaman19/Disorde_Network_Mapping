@@ -92,7 +92,7 @@ def clustering_coefficient(graph, label):
     out = (str(total),label)
     return out
 def clustering_coeff (graph, result,label):
-    result[1] = cc.graph_cc(graph,label)
+    result[1] = cc.graph_cc(graph,label, method = 'Zhang')
 
 def avg_path (graph,result):
     avg = nx.average_shortest_path_length(graph, weight='weight')
