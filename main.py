@@ -95,8 +95,18 @@ def clustering_coeff (graph, result,label):
     result[1] = cc.graph_cc(graph,label, method = 'Zhang')
 
 def avg_path (graph,result):
-    avg = nx.average_shortest_path_length(graph, weight='weight')
-    result[0] = avg 
+    #avg = nx.average_shortest_path_length(graph, weight='weight')
+    #avg = nx.global_efficiency(graph,weight='weight')
+    all_path_lengths = dict(nx.all_pairs_dijkstra_path_length(graph))
+    total = 0
+    for i in range(1,501):
+        for k in range (1,501):
+            if (i != k):
+                total += 1/all_path_lengths[i][k]
+
+
+
+    result[0] = total / (500*499)
 def small_world_sigma (graph, label):
     #sigma = nx.algorithms.smallworld.sigma(graph)
    
