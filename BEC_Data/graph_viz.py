@@ -42,7 +42,7 @@ def graph_visualize(graph,label):
     edge_alphas = [(5+i)/(M+4) for i in range(M)]
     
     nodes = nx.draw_networkx_nodes(graph,layout,node_size=node_size,node_color='blue')
-    edges = nx.draw_networkx_edges(graph,layout,arrows=True,node_size=node_size,edge_cmap=plt.cm.Blues,width=2,arrowsize=2,edge_color=edge_colors)
+    edges = nx.draw_networkx_edges(graph,layout,arrows=True,node_size=node_size,edge_cmap=plt.cm.Blues,width=2,arrowsize=2,arrowstyle='->',edge_color=edge_colors)
 
     for i in range(M):
         edges[i].set_alpha(edge_alphas[i])
