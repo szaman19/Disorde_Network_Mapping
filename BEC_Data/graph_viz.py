@@ -35,7 +35,7 @@ def generate_graph(file_name):
     return graph, label, condensate
 
 def graph_visualize(graph,label):
-    layout = nx.layout.circular_layout(graph)
+    layout = nx.layout.spring_layout(graph)
     node_size = [3 + 10 * i for i in range(len(graph))]
     M = graph.number_of_edges()
     edge_colors = range(2,M+2)
