@@ -48,6 +48,11 @@ def graph_cc(graph,label,method="Barrat"):
             c_c += G_3[i][i]/(denom * (denom - 1))
         
         c_c /= 500
+
+
+    #to do 
+    # Include new clustering coefficient implementation using combination of geometric and arithmetic mean 
+
     
     print(label," \t",c_c)
     
