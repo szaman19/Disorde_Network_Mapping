@@ -51,9 +51,9 @@ def main():
     output = [p.get() for p in results]
     print(output)
 
-    file_output = open("robustness_per_disorder.txt",'w')
+    file_output = open("algebraic_connectivity_disorder.txt",'w')
     for i in output:
-        s='\t'.join(i)
+        s= i + '\n'
         file_output.write(s)
     file_output.close()
 
