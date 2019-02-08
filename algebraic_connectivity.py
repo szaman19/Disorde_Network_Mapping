@@ -13,7 +13,7 @@ CWD+='/500_Diffusion_data/'
 
 def per_graph_rb(file_name):
     file_name = CWD + file_name
-    graph,label = graph_util.generate_graph(file_name,reciprocal=False)
+    graph,label = graph_util.generate_graph(file_name,reciprocal=True)
     return label + '\t' + str (graph_rb(graph,label))
 
 def graph_rb(graph,label):
