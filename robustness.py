@@ -6,6 +6,9 @@ import graph_util
 from multiprocessing import process
 from multiprocessing import pool as Pool
 from threading import Thread
+from gmpy2 import mpfr
+import gmpy2
+
 import os
 
 CWD = os.getcwd()
@@ -19,7 +22,8 @@ def per_graph_rb(file_name):
 def graph_rb(graph,label):
     eigen_vals = nx.linalg.spectrum.adjacency_spectrum(graph, weight='weight')
     max_val = 0
-    ret_val = np.float128(0)
+    ret_val = mpfr('0')
+
     for vals in eigen_vals:
         if vals > max_val:
             max_val = vals
@@ -27,11 +31,11 @@ def graph_rb(graph,label):
     #eigen_vals = np.array(eigen_vals, dtype=np.float128)
     for i in range(len(eigen_vals)):
         eigen_vals[i] = eigen_vals[i]
-        ret_val += np.exp(eigen_vals[i])
+        ret_val += gmpy2.exp(eigen_vals[i])
     ret_val /= 500
-    ret_val = np.log(ret_val)
+    ret_val = gmpy2.log(ret_val)
 
-    print(label,str(ret_val))
+    print(label,str(np.real(ret_val)))
     return np.real(ret_val)
 
 def main():
@@ -52,6 +56,8 @@ def main():
             'w-1-4-E-0-diffusion-500.txt',
             'w-1-5-E-0-diffusion-500.txt'
             ]
+    #files = ['w-0-E-0-diffusion-500.txt']
+
     pool = Pool.Pool(processes=len(files))
     results = [pool.apply_async(per_graph_rb, args=(files[x],)) for x in range(len(files))]
     output = [p.get() for p in results]
