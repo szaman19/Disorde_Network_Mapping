@@ -13,24 +13,18 @@ CWD+='/500_Diffusion_data/'
 
 def per_graph_rb(file_name):
     file_name = CWD + file_name
-    graph,label = graph_util.generate_graph(file_name,reciprocal=True)
+    graph,label = graph_util.generate_graph(file_name,reciprocal=False)
     return label + '\t' + str (graph_rb(graph,label))
 
 def graph_rb(graph,label):
-    eigen_vals = nx.linalg.spectrum.adjacency_spectrum(graph, weight='weight')
-    max_val = 0
-    ret_val = np.float128(0)
-    for vals in eigen_vals:
-        if vals > max_val:
-            max_val = vals
-    print(max_val)
-    #eigen_vals = np.array(eigen_vals, dtype=np.float128)
-    for i in range(len(eigen_vals)):
-        eigen_vals[i] = eigen_vals[i]
-        ret_val += np.exp(eigen_vals[i])
-    ret_val /= 500
-    ret_val = np.log(ret_val)
+    eigen_vals = nx.linalg.spectrum.laplacian_spectrum(graph, weight='weight')
+    eigen_vals = np.sort(eigen_vals)
 
+    ret_val = 0
+
+    for i in eigen_vals:
+        if (i != 0):
+            ret_val = i
     print(label,str(ret_val))
     return np.real(ret_val)
 
