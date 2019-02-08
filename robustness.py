@@ -65,7 +65,7 @@ def main():
 
     file_output = open("robustness_per_disorder.txt",'w')
     for i in output:
-        s='\t'.join(i)
+        s= i + '\n'
         file_output.write(s)
     file_output.close()
 
