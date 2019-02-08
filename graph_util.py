@@ -3,7 +3,7 @@ import os
 import numpy
 
 
-def generate_graph(file_name):
+def generate_graph(file_name, reciprocal = True):
     data = open(file_name)
     
     temp_lst = []
@@ -20,8 +20,12 @@ def generate_graph(file_name):
         #data_points currently hold [from_site_index, to_site_index, correlation_val]
             site_i = int(data_points[0])
             site_j = int(data_points[1])
+
             if (site_i != site_j):
-                corr = 1/float(data_points[2])
+                if (reciprocal):
+                    corr = 1/float(data_points[2])
+                else:
+                    corr = float(data_points[2])
             else:
                 corr = 0
         #Regular division is not helpful in this situation. Make sure to not add when i = j, because corr == inf
