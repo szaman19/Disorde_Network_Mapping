@@ -6,17 +6,30 @@ import sys
 def generate_graph(file_name):
     data = open(file_name)
     
-    temp_lst = []
-    graph = nx.DiGraph()
-    label = ''
-    condenstae = ''
+    graphs = []
+    labels = []
+    condensates = []
+    #graph = nx.DiGraph()
+    #label = ''
+    #condensate = ''
+    max_val = 0
+    max_vals=[]
+
     for line in data:
         #Clean up the data to get the numerical values
         data_points = line.strip().split()
         data_points = " ".join(data_points).split()
         if (data_points[0] == 'For'):
+            graph = nx.DiGraph()
             label = str(data_points[2])
             condensate = str(data_points[4])
+            graphs.append(graph)
+            labels.append(label)
+            condensates.append(condensate)
+
+            if (max_val != 0):
+                max_vals.append(max_val)
+            max_val=0
         else:
 
         #data_points currently hold [from_site_index, to_site_index, correlation_val]
@@ -28,31 +41,43 @@ def generate_graph(file_name):
 
             if(site_i != site_j):
             #print(site_i, site_j, corr)
+                if (corr > max_val):
+                    max_val = corr
                 graph.add_edge(site_i,site_j, weight = corr)
-        
+    max_vals.append(max_val)
     #adj_matrix = nx.adjacency_matrix(graph)
     #print(np.matrix(adj_matrix))
-    return graph, label, condensate
+    return graphs, labels, condensates, max_vals
 
-def graph_visualize(graph,label):
-    layout = nx.layout.spectral_layout(graph)
-    node_size = [3 + 10 * i for i in range(len(graph))]
+def graph_visualize(graph,label, cond, max_val):
+    layout = nx.layout.circular_layout(graph)
+    
     M = graph.number_of_edges()
     edge_colors = range(2,M+2)
-    edge_alphas = [(5+i)/(M+4) for i in range(M)]
+    e = graph.edges()
+    print(max_val)
+
     
-    nodes = nx.draw_networkx_nodes(graph,layout,node_size=node_size,node_color='blue')
-    edges = nx.draw_networkx_edges(graph,layout,arrows=True,node_size=node_size,edge_cmap=plt.cm.Blues,width=6,arrowsize=2,arrowstyle='->',edge_color=edge_colors)
+
+    edge_alphas = [(graph[u][v]['weight']/max_val) for u,v in e]
+
+    #print(edge_alphas)
+    
+    nodes = nx.draw_networkx_nodes(graph,layout,node_size=20,node_color='blue')
+
+    edges = nx.draw_networkx_edges(graph,layout,arrows=True,node_size=20,edge_cmap=plt.cm.Blues,width=1,arrowsize=2,arrowstyle='->',edge_color=edge_colors)
 
     for i in range(M):
         edges[i].set_alpha(edge_alphas[i])
 
     pc = mp.collections.PatchCollection(edges,cmap=plt.cm.Blues)
-    pc.set_array(edge_colors)
+    pc.set_array([max_val * i for i in edge_alphas])
     plt.colorbar(pc)
     ax = plt.gca()
     ax.set_axis_off()
-    plt.savefig("BEC_Graph.png",format='png')
+    label = str(label).replace(".","d")
+    cond = str(cond).replace(".","d")
+    plt.savefig("BEC_Graph_beta="+label+"condensate="+cond+".svg",format='svg')
 
 def file_reader(file_name):
     reader = open(file_name, 'r')
@@ -64,7 +89,15 @@ def main():
         print("Needs file name")
     else:
         file_name = sys.argv[1]
-        #file_reader(file_name)
-        graph, beta, condenstate = generate_graph(file_name)
-        graph_visualize(graph,beta)
+        graphs, betas, condensates, max_vals = generate_graph(file_name)
+
+        #print(betas)
+        #print('*'*80)
+        #print(condensates)
+        #print('*'*80)
+        #print(max_vals)
+        #for u,v in graph.edges():
+        #    print(u,v,graph[u][v])
+        for i in range(len(graphs)):
+            graph_visualize(graphs[i],betas[i],condensates[i],max_vals[i])
 main()
