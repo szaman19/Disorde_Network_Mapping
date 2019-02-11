@@ -61,6 +61,8 @@ def visualize_paths(files):
             else:
                 avg_path_data.append(float(lines))
         plt.plot(x_vals,avg_path_data,label=label)
+        plt.xlabel('Lattic Distance (a)', fontsize=20)
+        plt.ylabel('Graph Distance (l)', fontsize=20)
     plt.legend()
     plt.show()
 
