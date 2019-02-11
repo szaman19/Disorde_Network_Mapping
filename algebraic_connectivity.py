@@ -13,18 +13,26 @@ CWD+='/500_Diffusion_data/'
 
 def per_graph_rb(file_name):
     file_name = CWD + file_name
-    graph,label = graph_util.generate_graph(file_name,reciprocal=True)
+    graph,label = graph_util.generate_graph(file_name,reciprocal=False)
     return label + '\t' + str (graph_rb(graph,label))
 
 def graph_rb(graph,label):
     eigen_vals = nx.linalg.spectrum.laplacian_spectrum(graph, weight='weight')
     eigen_vals = np.sort(eigen_vals)
 
-    ret_val = 0
-
-    for i in eigen_vals:
-        if (i != 0):
-            ret_val = i
+    ret_val = eigen_vals[1]
+    '''
+    flag = True
+    #print(eigen_vals)
+    counter = 0
+    index = 0
+    while flag:
+        if eigen_vals[counter] > 0:
+            ret_val = eigen_vals[counter]
+            index = counter
+            flag = False
+        counter += 1
+    '''
     print(label,str(ret_val))
     return np.real(ret_val)
 
