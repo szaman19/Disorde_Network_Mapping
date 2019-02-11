@@ -1,7 +1,8 @@
 import networkx as nx 
 import matplotlib as mp
 import matplotlib.pyplot as plt 
-import sys 
+import sys
+from multiprocessing import pool as Pool
 
 def generate_graph(file_name):
     data = open(file_name)
@@ -49,7 +50,9 @@ def generate_graph(file_name):
     #print(np.matrix(adj_matrix))
     return graphs, labels, condensates, max_vals
 
-def graph_visualize(graph,label, cond, max_val):
+def graph_visualize(graph,label, cond, max_val,order):
+    fig = plt.figure(order)
+
     layout = nx.layout.circular_layout(graph)
     
     M = graph.number_of_edges()
@@ -72,12 +75,13 @@ def graph_visualize(graph,label, cond, max_val):
 
     pc = mp.collections.PatchCollection(edges,cmap=plt.cm.Blues)
     pc.set_array([max_val * i for i in edge_alphas])
-    plt.colorbar(pc)
-    ax = plt.gca()
+    
+    fig.colorbar(pc)
+    ax = fig.gca()
     ax.set_axis_off()
     label = str(label).replace(".","d")
     cond = str(cond).replace(".","d")
-    plt.savefig("BEC_Graph_beta="+label+"condensate="+cond+".svg",format='svg')
+    fig.savefig("BEC_Graph_beta="+label+"condensate="+cond+".svg",format='svg')
 
 def file_reader(file_name):
     reader = open(file_name, 'r')
@@ -98,6 +102,8 @@ def main():
         #print(max_vals)
         #for u,v in graph.edges():
         #    print(u,v,graph[u][v])
-        for i in range(len(graphs)):
-            graph_visualize(graphs[i],betas[i],condensates[i],max_vals[i])
+        pool = Pool.Pool(processes=len(graphs))
+        results = [pool.apply_async(graph_visualize, args=(graphs[i],betas[i],condensates[i],max_vals[i],i+1)) for i in range(len(graphs))]
+        output = [p.get() for p in results]
+        
 main()
