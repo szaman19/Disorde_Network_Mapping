@@ -14,7 +14,9 @@ CWD+='/500_Diffusion_data/'
 def per_graph_cc(file_name):
     file_name = CWD + file_name
     graph,label = graph_util.generate_graph(file_name,reciprocal=False)
-    return label + '\t' + str (graph_cc(graph,label,method="Lopez")) 
+    clustering = graph_cc(graph,label,method="Lopez")
+    return clustering, label 
+
 def graph_cc(graph,label,method="Lopez"):
     adjacency_matrix = nx.to_numpy_array(graph)
 
@@ -128,21 +130,19 @@ def main():
             'w-1-0-E-0-diffusion-500.txt',
             'w-1-1-E-0-diffusion-500.txt',
             'w-1-2-E-0-diffusion-500.txt',
-            'Pe-1D-500-Diffusion-Aij-disW-0d1.txt',
             'w-1-3-E-0-diffusion-500.txt',
             'w-1-4-E-0-diffusion-500.txt',
-            'w-1-5-E-0-diffusion-500.txt',
-            'Pe-1D-500-Diffusion-Aij-disW-0d2.txt'
+            'w-1-5-E-0-diffusion-500.txt'
             ]
     pool = Pool.Pool(processes=len(files))
     results = [pool.apply_async(per_graph_cc, args=(files[x],)) for x in range(len(files))]
     output = [p.get() for p in results]
     print(output)
 
-    file_output = open("clustering_coefficient_per_disorder.txt",'w')
-    for i in output:
-        s='\t'.join(i)
-        file_output.write(s)
+    file_output = open("clustering_coefficient_per_disorder.dat",'w')
+    for label, clustering in output:
+        line = "W="+str(label) + '\t' + 'C=' + str(clustering) +'\n'
+        file_output.write(line)
     file_output.close()
 
 main()
