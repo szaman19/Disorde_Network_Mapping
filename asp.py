@@ -11,40 +11,52 @@ from decimal import Decimal
 CWD = os.getcwd()
 FILE_DIR = CWD + "/500_Diffusion_data/"
 
-def average_shortest_path(file_name, bc = 'periodic'):
-    graph,label = graph_util.generate_graph(FILE_DIR+file_name)
-    all_path_lengths = dict(nx.all_pairs_dijkstra_path_length(graph))
-    average_path = []
-    if (bc == 'periodic'):
+# def average_shortest_path(file_name, bc = 'periodic'):
+#     graph,label = graph_util.generate_graph(FILE_DIR+file_name)
+#     all_path_lengths = dict(nx.all_pairs_dijkstra_path_length(graph))
+#     average_path = []
+#     if (bc == 'periodic'):
 
-        average_path = [0] * 251
-        for i in range(1,501):
-            for k in range(1,501):
-                distance = int(abs(i-k))
-                if(distance < 250):
-                    index = distance 
-                    average_path[index] += all_path_lengths[i][k]
-                else:
-                    index = 500 - distance
-                    average_path[index] += all_path_lengths[i][k]
-        file_name = 'sp-'+file_name
-        writer = open(file_name,"w")
-        writer.write("W = " + label + '\n')
-        for vals in average_path:
-            writer.write(str(vals/500)+'\n')
-        writer.close()
-        return label
-    else:
-        return "invalid argument"
+#         average_path = [0] * 251
+#         for i in range(1,501):
+#             for k in range(1,501):
+#                 distance = int(abs(i-k))
+#                 if(distance < 250):
+#                     index = distance 
+#                     average_path[index] += all_path_lengths[i][k]
+#                 else:
+#                     index = 500 - distance
+#                     average_path[index] += all_path_lengths[i][k]
+#         file_name = 'sp-'+file_name
+#         writer = open(file_name,"w")
+#         writer.write("W = " + label + '\n')
+#         for vals in average_path:
+#             writer.write(str(vals/500)+'\n')
+#         writer.close()
+#         return label
+#     else:
+#         return "invalid argument"
         
 def trial(f):
     print(f)
+def average_shortest_path(file_name):
+    graph,label = graph_util.generate_graph(FILE_DIR+file_name)
+    shortest_path_length = nx.average_shortest_path_length(graph, weight='weight')
+    return shortest_path_length, label     
+
 def generate_shortest_paths(files):
     for x in files:
         print(x)
     pool = Pool.Pool(processes=len(files))
     results = [pool.apply_async(average_shortest_path, args=(x,)) for x in files]
     output = [p.get() for p in results]
+
+    file_name = open('average_shortest_path_length.dat', 'w')
+    for length, label in output:
+        line = "W="+label+'\t' + 'L=' + str(length) +'\n'
+        file_name.write(line)
+    file_name.close()
+
     print(output)
 
 def visualize_paths(files):
@@ -84,7 +96,7 @@ def main():
     'w-1-3-E-0-diffusion-500.txt',
     'w-1-4-E-0-diffusion-500.txt',
     'w-1-5-E-0-diffusion-500.txt']
-    visualize_paths(files)
+    generate_shortest_paths(files)
     
 
 main()
