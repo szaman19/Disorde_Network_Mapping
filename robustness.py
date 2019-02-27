@@ -6,8 +6,8 @@ import graph_util
 from multiprocessing import process
 from multiprocessing import pool as Pool
 from threading import Thread
-from gmpy2 import mpfr
-import gmpy2
+#from gmpy2 import mpfr
+#import gmpy2
 
 import os
 
@@ -16,19 +16,21 @@ CWD+='/500_Diffusion_data/'
 
 def per_graph_rb(file_name):
     file_name = CWD + file_name
-    graph,label = graph_util.generate_graph(file_name,reciprocal=True)
+    graph,label = graph_util.generate_graph(file_name,reciprocal=False)
     return label + '\t' + str (graph_rb(graph,label))
 
 def graph_rb(graph,label):
     eigen_vals = nx.linalg.spectrum.adjacency_spectrum(graph, weight='weight')
     max_val = 0
-    ret_val = mpfr('0')
+    ret_val = 0#mpfr('0')
 
     for vals in eigen_vals:
         if vals > max_val:
             max_val = vals
     print(max_val)
-    #eigen_vals = np.array(eigen_vals, dtype=np.float128)
+    eigen_vals = np.array(eigen_vals, dtype=np.float128)
+    print(eigen_vals)
+    '''
     for i in range(len(eigen_vals)):
         eigen_vals[i] = eigen_vals[i]
         ret_val += gmpy2.exp(eigen_vals[i])
@@ -36,6 +38,7 @@ def graph_rb(graph,label):
     ret_val = gmpy2.log(ret_val)
 
     print(label,str(np.real(ret_val)))
+    '''
     return np.real(ret_val)
 
 def main():
