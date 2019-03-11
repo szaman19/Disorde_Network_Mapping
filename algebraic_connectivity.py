@@ -14,7 +14,7 @@ CWD+='/500_Diffusion_data/'
 def per_graph_rb(file_name):
     file_name = CWD + file_name
     graph,label = graph_util.generate_graph(file_name,reciprocal=False)
-    return label + '\t' + str (graph_rb(graph,label))
+    return "W="+label + '\tA=' + str (graph_rb(graph,label))
 
 def graph_rb(graph,label):
     eigen_vals = nx.linalg.spectrum.laplacian_spectrum(graph, weight='weight')
@@ -59,7 +59,7 @@ def main():
     output = [p.get() for p in results]
     print(output)
 
-    file_output = open("algebraic_connectivity_disorder.txt",'w')
+    file_output = open("algebraic_connectivity_disorder.dat",'w')
     for i in output:
         s= i + '\n'
         file_output.write(s)
