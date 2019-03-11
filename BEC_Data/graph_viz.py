@@ -3,6 +3,8 @@ import matplotlib as mp
 import matplotlib.pyplot as plt 
 import sys
 from multiprocessing import pool as Pool
+from matplotlib.pyplot import figure
+figure(num=None,figsize=(3.5,3.5),dpi=200,facecolor='w',edgecolor='k')
 
 def generate_graph(file_name, reciprocal = True):
     data = open(file_name)
@@ -21,7 +23,7 @@ def generate_graph(file_name, reciprocal = True):
         data_points = line.strip().split()
         data_points = " ".join(data_points).split()
         if (data_points[0] == 'For'):
-            graph = nx.Graph()
+            graph = nx.DiGraph()
             label = str(data_points[2])
             condensate = str(data_points[4])
             graphs.append(graph)
@@ -86,6 +88,7 @@ def graph_visualize(graph,label, cond, max_val,order):
     label = str(label).replace(".","d")
     cond = str(cond).replace(".","d")
     fig.savefig("BEC_Graph_beta="+label+"condensate="+cond+".svg",format='svg')
+    fig.savefig("BEC_Graph_beta="+label+"condensate="+cond+".eps",format='eps')
 def cc(graph, beta, condensate):
     adjacency_matrix = nx.to_numpy_array(graph)
     c_c = 0
@@ -122,12 +125,12 @@ def main():
         #output = [p.get() for p in results]
 
         pool = Pool.Pool(processes=len(graphs))
-        avg_p = [pool.apply_async(avg_path, args=(graphs[i],betas[i],condensates[i])) for i in range(len(graphs))]
+        avg_p = [pool.apply_async(graph_visualize, args=(graphs[i],betas[i],condensates[i],max_vals[i],i+1)) for i in range(len(graphs))]
         avg_p_results = [p.get() for p in avg_p]
         #print(output)
-        file_name = open('average_shortest_path_length.dat', 'w')
-        for beta,clustering in avg_p_results:
-            line = "L="+str(beta) + '\t' + 'C=' + str(clustering) +'\n'
-            file_name.write(line)
-            print (line)
+        #file_name = open('average_shortest_path_length.dat', 'w')
+        #for beta,clustering in avg_p_results:
+        #    line = "L="+str(beta) + '\t' + 'C=' + str(clustering) +'\n'
+        ##    file_name.write(line)
+        #    print (line)
 main()
