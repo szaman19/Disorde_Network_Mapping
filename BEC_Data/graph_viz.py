@@ -4,6 +4,9 @@ import matplotlib.pyplot as plt
 import sys
 from multiprocessing import pool as Pool
 
+from matplotlib.pyplot import figure
+figure(num=None, figsize=(3.3, 4.5), dpi=200, facecolor='w', edgecolor='k')
+
 def generate_graph(file_name, reciprocal = True):
     data = open(file_name)
     
@@ -85,6 +88,8 @@ def graph_visualize(graph,label, cond, max_val,order):
     ax.set_axis_off()
     label = str(label).replace(".","d")
     cond = str(cond).replace(".","d")
+
+    ax.title(label)
     fig.savefig("BEC_Graph_beta="+label+"condensate="+cond+".svg",format='svg')
 def cc(graph, beta, condensate):
     adjacency_matrix = nx.to_numpy_array(graph)
@@ -117,17 +122,18 @@ def main():
         file_name = sys.argv[1]
         graphs, betas, condensates, max_vals = generate_graph(file_name, reciprocal=False)
 
-        #pool = Pool.Pool(processes=len(graphs))
-        #results = [pool.apply_async(cc, args=(graphs[i],betas[i],condensates[i])) for i in range(len(graphs))]
-        #output = [p.get() for p in results]
+        pool = Pool.Pool(processes=2)
+        results = [pool.apply_async(graph_visualize, args=(graphs[i],betas[i],
+            condensates[i], max_vals[i], 221+i)) for i in range(len(graphs))]
+        output = [p.get() for p in results]
 
-        pool = Pool.Pool(processes=len(graphs))
-        avg_p = [pool.apply_async(avg_path, args=(graphs[i],betas[i],condensates[i])) for i in range(len(graphs))]
-        avg_p_results = [p.get() for p in avg_p]
-        #print(output)
-        file_name = open('average_shortest_path_length.dat', 'w')
-        for beta,clustering in avg_p_results:
-            line = "L="+str(beta) + '\t' + 'C=' + str(clustering) +'\n'
-            file_name.write(line)
-            print (line)
+        # pool = Pool.Pool(processes=len(graphs))
+        # avg_p = [pool.apply_async(avg_path, args=(graphs[i],betas[i],condensates[i])) for i in range(len(graphs))]
+        # avg_p_results = [p.get() for p in avg_p]
+        # #print(output)
+        # file_name = open('average_shortest_path_length.dat', 'w')
+        # for beta,clustering in avg_p_results:
+        #     line = "L="+str(beta) + '\t' + 'C=' + str(clustering) +'\n'
+        #     file_name.write(line)
+        #     print (line)
 main()
