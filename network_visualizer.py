@@ -11,8 +11,9 @@ CWD = os.getcwd()
 FILE_DIR = CWD + '/500_Diffusion_data/'
 def visualizer(file_name, order):
         file_name = FILE_DIR + file_name
-        fig = plt.figure(num=order,figsize=(3.5,3.5),dpi=200,facecolor='w',edgecolor='k')
+        fig = plt.figure(num=order,dpi=200,facecolor='w',edgecolor='k')
         graph, label = graph_util.di_generate_graph(file_name, reciprocal=False)
+        label = label.replace(".","-")
         layout = nx.layout.circular_layout(graph)
         print("graph generated")
         M = graph.number_of_edges()
@@ -32,6 +33,7 @@ def visualizer(file_name, order):
         #nx.draw_circular(graph, **options)
         plt.tight_layout()
 	# plt.show()
+        #label = label.replace(".","-")
         plt.savefig(label+".svg",format='svg')
         plt.savefig(label+".png",format='png')
 
