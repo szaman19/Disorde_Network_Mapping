@@ -5,7 +5,7 @@ import matplotlib as mp
 import os 
 from multiprocessing import pool as Pool
 from matplotlib.pyplot import figure
-figure(num=None,figsize=(3.5,3.5),dpi=200,facecolor='w',edgecolor='k')
+#figure(num=None,figsize=(3.5,3.5),dpi=200,facecolor='w',edgecolor='k')
 
 CWD = os.getcwd()
 FILE_DIR = CWD + '/500_Diffusion_data/'
@@ -21,8 +21,8 @@ def visualizer(file_name, order):
         edge_colors = range(2,M+2)
         e = graph.edges()
         edge_alphas = [(graph[u][v]['weight']/max_val) for u,v in e]
-        nodes = nx.draw_networkx_nodes(graph,layout,node_size=20,node_color='blue')
-        edges = nx.draw_networkx_edges(graph,layout,arrows=True,node_size=20,edge_cmap=plt.cm.Blues,width=1,arrowsize=2,arrowstyle='->',edge_color=edge_colors)
+        nodes = nx.draw_networkx_nodes(graph,layout,node_size=20,node_color='black')
+        edges = nx.draw_networkx_edges(graph,layout,arrows=True,node_size=20,edge_cmap=plt.cm.Greys,width=1,arrowsize=2,arrowstyle='->',edge_color=edge_colors)
         for i in range(M):
             edges[i].set_alpha(edge_alphas[i])
         pc = mp.collections.PatchCollection(edges,cmap=plt.cm.Blues)
