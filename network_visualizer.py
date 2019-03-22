@@ -1,28 +1,20 @@
 import matplotlib.pyplot as plt 
 import graph_util 
 import networkx as nx
+import matplotlib as mp
 import os 
+from multiprocessing import pool as Pool
+from matplotlib.pyplot import figure
+figure(num=None,figsize=(3.5,3.5),dpi=200,facecolor='w',edgecolor='k')
 
 CWD = os.getcwd()
 FILE_DIR = CWD + '/500_Diffusion_data/'
 def visualizer(file_name):
 	file_name = FILE_DIR + file_name
-
 	graph, label = graph_util.di_generate_graph(file_name, reciprocal=False)
-	
-
 	layout = nx.layout.circular_layour(graph)
-
 	print("graph generated")
-	# options = {
- #        'node_color': 'black',
- #        'node_size': 2,
- #        'line_color': 'grey',
- #        'linewidths': 0,
- #        'width': 0.001,
- #    }
-
- 	M = graph.number_of_edges()
+	M = graph.number_of_edges()
  	edge_colors = range(2,M+2)
  	e = graph.edges()
 
@@ -30,7 +22,6 @@ def visualizer(file_name):
 
  	nodes = nx.draw_networkx_nodes(graph,layout,node_size=20,node_color='blue')
  	edges = nx.draw_networkx_edges(graph,layout,arrows=True,node_size=20,edge_cmap=plt.cm.Blues,width=1,arrowsize=2,arrowstyle='->',edge_color=edge_colors)
-
  	for i in range(M):
  	    edges[i].set_alpha(edge_alphas[i])
 
