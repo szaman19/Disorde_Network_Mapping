@@ -8,9 +8,10 @@ FILE_DIR = CWD + '/500_Diffusion_data/'
 def visualizer(file_name):
 	file_name = FILE_DIR + file_name
 
-	graph, label = graph_util.generate_graph(file_name)
+	graph, label = graph_util.di_generate_graph(file_name, reciprocal=False)
 	
 
+	print("graph generated")
 	options = {
         'node_color': 'black',
         'node_size': 2,
@@ -19,8 +20,9 @@ def visualizer(file_name):
         'width': 0.001,
     }
 
-	nx.draw_spectral(graph, **options)
-	plt.show()
+	nx.draw_circular(graph, **options)
+	# plt.show()
+	plt.savefig("W-0.svg",format='svg')
 
 def main():
 	file_name = 'w-0-E-0-diffusion-500.txt'
