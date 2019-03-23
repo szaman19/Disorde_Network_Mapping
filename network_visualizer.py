@@ -35,8 +35,8 @@ def visualizer(file_name, order):
         plt.tight_layout()
         #plt.show()
         #label = label.replace(".","-")
-        plt.savefig(label+".svg",format='svg')
-        # plt.savefig(label+"3.png",format='png')
+        #plt.savefig(label+".svg",format='svg')
+        plt.savefig(label+"3.png",format='png')
 
 def main():
 	file_name = 'w-0-E-0-diffusion-500.txt'
