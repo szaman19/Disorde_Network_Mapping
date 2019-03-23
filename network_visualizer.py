@@ -33,18 +33,19 @@ def visualizer(file_name, order):
         ax.set_axis_off()
         #nx.draw_circular(graph, **options)
         plt.tight_layout()
-	# plt.show()
+        #plt.show()
         #label = label.replace(".","-")
-        #plt.savefig(label+".svg",format='svg')
-        plt.savefig(label+"3.png",format='png')
+        plt.savefig(label+".svg",format='svg')
+        # plt.savefig(label+"3.png",format='png')
 
 def main():
 	file_name = 'w-0-E-0-diffusion-500.txt'
 	file_name2 = 'w-1-5-E-0-diffusion-500.txt'
+	visualizer(file_name,0)
 
-	pool = Pool.Pool(processes=2)
-	p1 = pool.apply_async(visualizer, args=(file_name,1, ))
-	p2 = pool.apply_async(visualizer, args=(file_name2,2, ))
-	p1.get()
-	p2.get()
+	# pool = Pool.Pool(processes=2)
+	# p1 = pool.apply_async(visualizer, args=(file_name,1, ))
+	# p2 = pool.apply_async(visualizer, args=(file_name2,2, ))
+	# p1.get()
+	# p2.get()
 main()
