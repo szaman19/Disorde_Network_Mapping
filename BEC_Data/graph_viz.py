@@ -87,7 +87,7 @@ def graph_visualize(graph,label, cond, max_val,order):
     
     fig.colorbar(pc)
     ax = fig.gca()
-    msg = "$\\beta$ = {}"
+    msg = "$\\beta$ = %s"
     msg.format(label[:3])
     ax.text(-0.25,-1.25,msg, fontsize=14)
     ax.set_axis_off()
