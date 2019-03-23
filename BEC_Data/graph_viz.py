@@ -63,7 +63,7 @@ def graph_visualize(graph,label, cond, max_val,order):
     plt.rcParams["font.serif"]="Times New Roman"
 
     layout = nx.layout.circular_layout(graph)
-    
+    plt.gcf().subplots_adjust(left=0, bottom=0.05,right=.97,top=.97)
     M = graph.number_of_edges()
     edge_colors = range(2,M+2)
     e = graph.edges()
@@ -87,15 +87,15 @@ def graph_visualize(graph,label, cond, max_val,order):
     
     fig.colorbar(pc)
     ax = fig.gca()
-    msg = "$\\beta$ = {l}"
-    msg.format(l=label[:3])
+    msg = "$\\beta$ = {}"
+    msg.format(label[:3])
     ax.text(-0.25,-1.25,msg, fontsize=14)
     ax.set_axis_off()
     #ax.set_rasterize(True)
     label = str(label).replace(".","d")
     cond = str(cond).replace(".","d")
-    fig.savefig("BEC_Graph_beta="+label+"condensate="+cond+".svg",format='svg')
-    fig.savefig("BEC_Graph_beta="+label+"condensate="+cond+".png",format='png')
+    fig.savefig("BEC_Graph_beta="+label[:3]+"condensate="+cond[:2]+".svg",format='svg')
+    fig.savefig("BEC_Graph_beta="+label[:3]+"condensate="+cond[:2]+".png",format='png')
 def cc(graph, beta, condensate):
     adjacency_matrix = nx.to_numpy_array(graph)
     c_c = 0
