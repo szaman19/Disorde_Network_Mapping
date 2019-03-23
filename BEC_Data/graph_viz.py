@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import sys
 from multiprocessing import pool as Pool
 from matplotlib.pyplot import figure
-figure(num=None,figsize=(3.5,3.5),dpi=200,facecolor='w',edgecolor='k')
+#figure(num=None,figsize=(3.5,3.5),dpi=200,facecolor='w',edgecolor='k')
 
 def generate_graph(file_name, reciprocal = True):
     data = open(file_name)
@@ -87,7 +87,9 @@ def graph_visualize(graph,label, cond, max_val,order):
     
     fig.colorbar(pc)
     ax = fig.gca()
-    ax.text(-0.25,-1.25,"$\\beta$"+label+")", fontsize=14)
+    msg = "$\\beta$ = {l}"
+    msg.format(l=label[:3])
+    ax.text(-0.25,-1.25,msg, fontsize=14)
     ax.set_axis_off()
     #ax.set_rasterize(True)
     label = str(label).replace(".","d")
