@@ -44,7 +44,7 @@ def di_generate_graph(file_name, reciprocal = True):
     temp_lst = []
     graph = nx.DiGraph()
     label = ''
-    counter = 0
+    # counter = 0
     for line in data:
         #Clean up the data to get the numerical values
         data_points = line.strip().split()
@@ -66,11 +66,11 @@ def di_generate_graph(file_name, reciprocal = True):
                 corr = 0
         #Regular division is not helpful in this situation. Make sure to not add when i = j, because corr == inf
 
-            if(site_i != site_j and (counter % 10) ==0):
+            if(site_i != site_j and (site_j % 10) ==0 and (site_i % 10) ==0):
             #print(site_i, site_j, corr)
                 graph.add_edge(site_i,site_j, weight = corr)
                 graph.add_edge(site_j,site_i, weight = corr)
-            counter +=1
+            # counter +=1
 
         
     #adj_matrix = nx.adjacency_matrix(graph)

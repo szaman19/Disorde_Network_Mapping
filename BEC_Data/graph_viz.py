@@ -57,7 +57,10 @@ def generate_graph(file_name, reciprocal = True):
     return graphs, labels, condensates, max_vals
 
 def graph_visualize(graph,label, cond, max_val,order):
-    fig = plt.figure(order)
+    fig = plt.figure(order,num=order,figsize=(3.5,2.8),dpi=200,facecolor='w',edgecolor='k')
+    plt.rcParams["axes.labelweight"] = "bold"
+	plt.rcParams["font.family"] = "serif"
+	plt.rcParams["font.serif"]="Times New Roman"
 
     layout = nx.layout.circular_layout(graph)
     
@@ -84,11 +87,13 @@ def graph_visualize(graph,label, cond, max_val,order):
     
     fig.colorbar(pc)
     ax = fig.gca()
+    ax.text(-0.25,-1.25,"$\\beta$"+lab+")", fontdict=font)
     ax.set_axis_off()
+    ax.set_rasterize(True)
     label = str(label).replace(".","d")
     cond = str(cond).replace(".","d")
     fig.savefig("BEC_Graph_beta="+label+"condensate="+cond+".svg",format='svg')
-    fig.savefig("BEC_Graph_beta="+label+"condensate="+cond+".eps",format='eps')
+    fig.savefig("BEC_Graph_beta="+label+"condensate="+cond+".png",format='png')
 def cc(graph, beta, condensate):
     adjacency_matrix = nx.to_numpy_array(graph)
     c_c = 0
