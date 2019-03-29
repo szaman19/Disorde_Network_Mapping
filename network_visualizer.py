@@ -33,22 +33,29 @@ def visualizer(file_name, order):
 	edge_colors = range(2,M+2)
 	e = graph.edges()
 	edge_alphas = [(graph[u][v]['weight']/max_val) for u,v in e]
+
 	nodes = nx.draw_networkx_nodes(graph,layout,node_size=10,node_color='black')
-	edges = nx.draw_networkx_edges(graph,layout,arrows=True,node_size=2,edge_cmap=plt.cm.Greys,width=.3,arrowsize=.1,arrowstyle='->',edge_color=edge_colors)
-	for i in range(M):
-	    edges[i].set_alpha(edge_alphas[i])
-	pc = mp.collections.PatchCollection(edges,cmap=plt.cm.Greys)
-	pc.set_array([max_val * i for i in edge_alphas])
-	fig.colorbar(pc)
+	for u,v in e:
+		nx.draw_networkx_edges(graph,layout,edgelist=[(u,v)],width=graph[u][v]['weight']/5)
+		# print("Nodes 1: ", u,"\t Node 2: ",v, "\t" , graph[u][v]['weight'] )
+
+	# nodes = nx.draw_networkx_nodes(graph,layout,node_size=10,node_color='black')
+	# edges = nx.draw_networkx_edges(graph,layout,arrows=True,node_size=2,edge_cmap=plt.cm.Greys,width=.3,arrowsize=.1,arrowstyle='->',edge_color=edge_colors)
+	# for i in range(M):
+	#     edges[i].set_alpha(edge_alphas[i])
+	# pc = mp.collections.PatchCollection(edges,cmap=plt.cm.Greys)
+	# pc.set_array([e for e in edge_alphas])
+
+	# fig.colorbar(pc)
 	ax = fig.gca()
 	ax.set_axis_off()
 	ax.text(-0.25,-1.25,"(W="+lab+")", fontdict=font)
 	#nx.draw_circular(graph, **options)
 	# plt.tight_layout()
-	# plt.show()
+	plt.show()
     # label = label.replace(".","-")
-	plt.savefig("W-"+label+".svg",format='svg')
-	plt.savefig('W-'+label+".png",format='png')
+	# plt.savefig("25-W-"+label+".svg",format='svg')
+	# plt.savefig('25-W-'+label+".png",format='png')
 
 def main():
 	file_name = 'w-0-E-0-diffusion-500.txt'

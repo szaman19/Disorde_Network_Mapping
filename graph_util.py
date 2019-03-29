@@ -42,7 +42,7 @@ def di_generate_graph(file_name, reciprocal = True):
     data = open(file_name)
     
     temp_lst = []
-    graph = nx.DiGraph()
+    graph = nx.Graph()
     label = ''
     # counter = 0
     for line in data:
@@ -66,10 +66,11 @@ def di_generate_graph(file_name, reciprocal = True):
                 corr = 0
         #Regular division is not helpful in this situation. Make sure to not add when i = j, because corr == inf
 
-            if(site_i != site_j and (site_j % 10) ==0 and (site_i % 10) ==0):
+            if(site_i != site_j and (site_j <251 ) and (site_i <251)
+                and (site_j %4 ==0) and (site_i % 4 == 0)):
             #print(site_i, site_j, corr)
                 graph.add_edge(site_i,site_j, weight = corr)
-                graph.add_edge(site_j,site_i, weight = corr)
+                #graph.add_edge(site_j,site_i, weight = corr)
             # counter +=1
 
         

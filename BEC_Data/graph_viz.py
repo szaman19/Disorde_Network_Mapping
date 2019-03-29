@@ -67,29 +67,21 @@ def graph_visualize(graph,label, cond, max_val,order):
     M = graph.number_of_edges()
     edge_colors = range(2,M+2)
     e = graph.edges()
-    print(max_val)
+    # print(max_val)
 
     
 
-    edge_alphas = [(graph[u][v]['weight']/max_val) for u,v in e]
+    # edge_alphas = [(graph[u][v]['weight']/max_val) for u,v in e]
 
     #print(edge_alphas)
     
     nodes = nx.draw_networkx_nodes(graph,layout,node_size=20,node_color='blue')
 
-    edges = nx.draw_networkx_edges(graph,layout,arrows=True,node_size=20,edge_cmap=plt.cm.Blues,width=1,arrowsize=2,arrowstyle='->',edge_color=edge_colors)
+    # edges = nx.draw_networkx_edges(graph,layout,arrows=True,node_size=20,edge_cmap=plt.cm.Blues,width=1,arrowsize=2,arrowstyle='->',edge_color=edge_colors)
 
-    for i in range(M):
-        edges[i].set_alpha(edge_alphas[i])
-
-    pc = mp.collections.PatchCollection(edges,cmap=plt.cm.Blues)
-    pc.set_array([max_val * i for i in edge_alphas])
-    
-    fig.colorbar(pc)
-    ax = fig.gca()
-    msg = "$\\beta$ = " + label[:3]
-    ax.text(-0.25,-1.25,msg, fontsize=14)
-    ax.set_axis_off()
+    nodes = nx.draw_networkx_nodes(graph,layout,node_size=10,node_color='black')
+    for u,v in e:
+        nx.draw_networkx_edges(graph,layout,edgelist=[(u,v)],width=graph[u][v]['weight']/5)
     #ax.set_rasterize(True)
     label = str(label).replace(".","d")
     cond = str(cond).replace(".","d")
