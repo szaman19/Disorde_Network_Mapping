@@ -23,7 +23,7 @@ def generate_graph(file_name, reciprocal = True):
         data_points = line.strip().split()
         data_points = " ".join(data_points).split()
         if (data_points[0] == 'For'):
-            graph = nx.DiGraph()
+            graph = nx.Graph()
             label = str(data_points[2])
             condensate = str(data_points[4])
             graphs.append(graph)
